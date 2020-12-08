@@ -15,7 +15,7 @@ const Button = ({onClick, title}) =>
       </button>;
 
 const ImageButton = ({onClick, imgPath, altText}) =>
-      <div onClick={onClick} className="flex items-center justify-center p-0.5 m-0.5">
+      <div onClick={onClick} className="flex items-center justify-center p-0.5 m-0.5 cursor-pointer">
         <img src={imgPath} alt={altText} width="30" height="30" />
       </div>;
 
