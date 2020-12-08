@@ -9,34 +9,41 @@ import microphone from '../img/microphone.svg';
 import pauseIcons from '../img/pause.svg';
 import stopIcon from '../img/stop.svg';
 
-const Button = ({onClick, title}) => <button onClick={onClick}>{title}</button>;
+const Button = ({onClick, title}) =>
+      <button onClick={onClick}  className="w-1/2 flex items-center justify-center rounded-md bg-black text-white p-2 m-2">
+        {title}
+      </button>;
 
 const ImageButton = ({onClick, imgPath, altText}) =>
-      <div onClick={onClick}>
+      <div onClick={onClick} className="flex items-center justify-center p-0.5 m-0.5">
         <img src={imgPath} alt={altText} width="30" height="30" />
       </div>;
 
-const Timer = ({time}) =>
-      <div>
-        <span>
-          {time.m !== undefined
-           ? `${time.m <= 9 ? "0" + time.m : time.m}`
-           : "00"}
-        </span>
-        <span>:</span>
-        <span>
-          {time.s !== undefined
-           ? `${time.s <= 9 ? "0" + time.s : time.s}`
-           : "00"}
-        </span>
-      </div>;
+const Timer = ({time, show}) => {
+    if (!show)
+        return <div />;
+    else
+        return (
+            <div className="flex justify-center items-center w-80 h-12 p-2 m-2 bg-gray-400 rounded-full">
+              {time.m !== undefined
+               ? `${time.m <= 9 ? "0" + time.m : time.m}`
+               : "00"}
+              :
+              {time.s !== undefined
+               ? `${time.s <= 9 ? "0" + time.s : time.s}`
+               : "00"}
+            </div>
+        );
+};
 
 const AudioPlayer = ({audios, show}) =>
       show ?
-      <audio controls>
-        <source src={audios[0]} type="audio/ogg" />
-        <source src={audios[0]} type="audio/mpeg" />
-      </audio>
+      <div  className="flex items-center justify-center p-2 m-2 h-12">
+        <audio controls className="w-80 rounded-full">
+            <source src={audios[0]} type="audio/ogg" />
+            <source src={audios[0]} type="audio/mpeg" />
+        </audio>
+      </div>
       :
       <div />;
 
@@ -51,14 +58,16 @@ const RecorderControls = props => {
     } = props;
     if (!recording)
         return (
-            <ImageButton
-              onClick={e => startRecording(e)}
-              imgPath={microphone}
-              altText="Microphone icon"/>
+            <div className="flex items-center justify-center w-20">
+                <ImageButton
+                onClick={e => startRecording(e)}
+                imgPath={microphone}
+                altText="Microphone icon"/>
+            </div>
         );
     else
         return (
-            <div>
+            <div className="flex items-center justify-center w-20">
               <ImageButton
                 onClick={e => stopRecording(e)}
                 imgPath={stopIcon}
@@ -84,20 +93,7 @@ class MyRecorder extends Recorder {
             );
         else
             return (
-                <div>
-                  <div>
-                    <Button
-                      onClick={() => this.props.handleAudioUpload(this.state.audioBlob)}
-                      title="Upload" />
-                    <Button
-                      onClick={(e) => this.handleRest(e)}
-                      title="Clear" />
-                  </div>
-                  <AudioPlayer audios={audios} show={audioURL !== null && showUIAudio} />
-                  <Timer time={time}/>
-                  {!recording ? (
-                      <p>Press the microphone to record</p>
-                  ) : null}
+                <div className="flex flex-row">
                   <RecorderControls
                     recording={recording}
                     pauseRecord={pauseRecord}
@@ -106,6 +102,16 @@ class MyRecorder extends Recorder {
                     handleAudioStart={(e) => this.handleAudioStart(e)}
                     handleAudioPause={(e) => this.handleAudioPause(e)}
                   />
+                  <Timer time={time} show={audioURL === null}/>
+                  <AudioPlayer audios={audios} show={audioURL !== null && showUIAudio} />
+                  <div className="flex flex-row">
+                    <Button
+                      onClick={() => this.props.handleAudioUpload(this.state.audioBlob)}
+                      title="Upload" />
+                    <Button
+                      onClick={(e) => this.handleRest(e)}
+                      title="Clear" />
+                  </div>
                 </div>
             );
     }
