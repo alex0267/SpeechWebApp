@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
-    entry: "./js/index.js",
+    entry: "./js/index.jsx",
     mode: "development",
     module: {
         rules: [
@@ -17,7 +17,7 @@ module.exports = {
                 use: ["style-loader", "css-loader"]
             },
             {
-                test: /\.(png|jpe?g|gif)$/i,
+                test: /\.(png|jpe?g|gif|svg)$/i,
                 use: [
                     {
                         loader: 'file-loader',
@@ -33,7 +33,7 @@ module.exports = {
         filename: "bundle.js"
     },
     devServer: {
-        contentBase: path.join(__dirname, "public/"),
+        contentBase: __dirname,
         port: 3000,
         publicPath: "http://localhost:3000/dist/",
         hotOnly: true

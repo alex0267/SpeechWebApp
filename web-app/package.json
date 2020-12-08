@@ -2,12 +2,13 @@
   "name": "speech-emotion-webapp",
   "version": "1.0.0",
   "description": "Crowd source a speech emotion dataset",
-  "main": "index.js",
+  "main": "index.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-css": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css",
     "build-js": "webpack",
-    "build": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css && webpack"
+    "build": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css && webpack",
+    "server": "webpack serve"
   },
   "author": "Wewyse",
   "license": "ISC",
@@ -21,7 +22,8 @@
     "file-loader": "^6.2.0",
     "style-loader": "^2.0.0",
     "webpack": "^5.10.0",
-    "webpack-cli": "^4.2.0"
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
     "react": "^16.14.0",
