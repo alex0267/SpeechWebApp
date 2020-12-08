@@ -118,10 +118,11 @@ class MyRecorder extends Recorder {
 }
 
 class VoiceRecorder extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            audioDetails: {
+    constructor(props) {
+        super(props);
+        const state = {};
+        for (let emotion of this.props.emotions) {
+            state[emotion] = {
                 url: null,
                 blob: null,
                 chunks: null,
@@ -130,44 +131,68 @@ class VoiceRecorder extends React.Component {
                     m: 0,
                     s: 0
                 }
-            }
-        };
+            };
+        }
+        this.state = state;
     }
-    handleAudioStop(data){
-        console.log(data);
-        this.setState({ audioDetails: data });
+    handleAudioStop(emotion){
+        return data => this.setState({ ...this.state, [emotion]: data });
     }
     handleAudioUpload(file) {
         console.log(file);
     }
-    handleRest() {
-        const reset = {
-            url: null,
-            blob: null,
-            chunks: null,
-            duration: {
-                h: 0,
-                m: 0,
-                s: 0
-            }
+    handleRest(emotion) {
+        return () => {
+            const reset = {
+                url: null,
+                blob: null,
+                chunks: null,
+                duration: {
+                    h: 0,
+                    m: 0,
+                    s: 0
+                }
+            };
+            this.setState({ ...this.state, [emotion]: reset });
         };
-        this.setState({ audioDetails: reset });
     }
     render() {
+        const emotion = this.props.emotions[0];
+        const recorders = this.props.emotions.map((emotion, i) =>
+            <div className="flex justify-center items-center" key={i}>
+                <div className="flex justify-center items-center w-20">
+                  {emotion}
+                </div>
+                <MyRecorder
+                    record={true}
+                    title={"New recording"}
+                    audioURL={this.state[emotion].url}
+                    showUIAudio
+                    handleAudioStop={data => this.handleAudioStop(emotion)(data)}
+                    handleAudioUpload={data => this.handleAudioUpload(data)}
+                    handleRest={() => this.handleRest(emotion)()}
+                />
+            </div>
+        );
+
         return (
-            <MyRecorder
-                record={true}
-                title={"New recording"}
-                audioURL={this.state.audioDetails.url}
-                showUIAudio
-                handleAudioStop={data => this.handleAudioStop(data)}
-                handleAudioUpload={data => this.handleAudioUpload(data)}
-                handleRest={() => this.handleRest()}
-            />
+            <div>
+              <div>
+                <h2 className="p-2 mx-2 my-8">
+                  {this.props.sentence}
+                </h2>
+              </div>
+              {recorders}
+            </div>
         );
     }
 }
 
 
-ReactDOM.render(<VoiceRecorder />, document.getElementById("root"));
+const sentence = "Il faut avoir voulu mourir, Maximilien, pour savoir combien il est bon de vivre.";
+const emotions = ['Happy', 'Normal', 'Sad'];
+ReactDOM.render(
+    <VoiceRecorder emotions={emotions} sentence={sentence} />,
+    document.getElementById("root")
+);
 
