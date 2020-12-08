@@ -9,88 +9,105 @@ import microphone from '../img/microphone.svg';
 import pauseIcons from '../img/pause.svg';
 import stopIcon from '../img/stop.svg';
 
+const Button = ({onClick, title}) => <button onClick={onClick}>{title}</button>;
+
+const ImageButton = ({onClick, imgPath, altText}) =>
+      <div onClick={onClick}>
+        <img src={imgPath} alt={altText} width="30" height="30" />
+      </div>;
+
+const Timer = ({time}) =>
+      <div>
+        <span>
+          {time.m !== undefined
+           ? `${time.m <= 9 ? "0" + time.m : time.m}`
+           : "00"}
+        </span>
+        <span>:</span>
+        <span>
+          {time.s !== undefined
+           ? `${time.s <= 9 ? "0" + time.s : time.s}`
+           : "00"}
+        </span>
+      </div>;
+
+const AudioPlayer = ({audios, show}) =>
+      show ?
+      <audio controls>
+        <source src={audios[0]} type="audio/ogg" />
+        <source src={audios[0]} type="audio/mpeg" />
+      </audio>
+      :
+      <div />;
+
+const RecorderControls = props => {
+    const {
+        recording,
+        pauseRecord,
+        startRecording,
+        stopRecording,
+        handleAudioStart,
+        handleAudioPause,
+    } = props;
+    if (!recording)
+        return (
+            <ImageButton
+              onClick={e => startRecording(e)}
+              imgPath={microphone}
+              altText="Microphone icon"/>
+        );
+    else
+        return (
+            <div>
+              <ImageButton
+                onClick={e => stopRecording(e)}
+                imgPath={stopIcon}
+                altText="Stop icon"/>
+              <ImageButton
+                onClick={e => !pauseRecord ? handleAudioPause(e) : handleAudioStart(e)}
+                imgPath={pauseRecord ? playIcons : pauseIcons}
+                altText={pauseRecord ? "Play icon" : "Pause icon"} />
+            </div>
+        );
+}
+
 class MyRecorder extends Recorder {
     render() {
         const { recording, audios, time, medianotFound, pauseRecord } = this.state;
         const { showUIAudio, title, audioURL } = this.props;
-        const closeIcons = "";
-        return (
-            <div>
-              {!medianotFound ? (
+
+        if (medianotFound)
+            return  (
+                <p style={{ color: "#fff", marginTop: 30, fontSize: 25 }}>
+                  Seems the site is Non-SSL
+                </p>
+            );
+        else
+            return (
+                <div>
                   <div>
-                    <div>
-                      <button
-                        onClick={() =>
-                            this.props.handleAudioUpload(this.state.audioBlob)
-                        }
-                      >
-                        Upload
-                      </button>
-                      <button onClick={(e) => this.handleRest(e)}>
-                        Clear
-                      </button>
-                    </div>
-                    <div>
-                      <div>
-                        {audioURL !== null && showUIAudio ? (
-                            <audio controls>
-                              <source src={audios[0]} type="audio/ogg" />
-                              <source src={audios[0]} type="audio/mpeg" />
-                            </audio>
-                        ) : null}
-                      </div>
-                      <div>
-                        <span>
-                          {time.m !== undefined
-                           ? `${time.m <= 9 ? "0" + time.m : time.m}`
-                           : "00"}
-                        </span>
-                        <span>:</span>
-                        <span>
-                          {time.s !== undefined
-                           ? `${time.s <= 9 ? "0" + time.s : time.s}`
-                           : "00"}
-                        </span>
-                      </div>
-                      {!recording ? (
-                          <p>Press the microphone to record</p>
-                      ) : null}
-                    </div>
-                    {!recording ? (
-                        <a
-                          onClick={e => this.startRecording(e)}
-                          href=" #"
-                        >
-                          <img src={microphone} width={30} height={30} alt="Microphone icons" />
-                        </a>
-                    ) : (
-                        <div>
-                          <a
-                            onClick={e => this.stopRecording(e)}
-                            href=" #"
-                          >
-                            <img src={stopIcon} width={20} height={20} alt="Stop icons" />
-                          </a>
-                          <a
-                            onClick={
-                                !pauseRecord
-                                    ? e => this.handleAudioPause(e)
-                                    : e => this.handleAudioStart(e)
-                            }
-                            href=" #"
-                          >
-                            {pauseRecord ? <img src={playIcons} width={20} height={20} alt="Play icons" /> : <img src={pauseIcons} width={20} height={20} alt="Pause icons" />}
-                          </a>
-                        </div>
-                    )}
+                    <Button
+                      onClick={() => this.props.handleAudioUpload(this.state.audioBlob)}
+                      title="Upload" />
+                    <Button
+                      onClick={(e) => this.handleRest(e)}
+                      title="Clear" />
                   </div>
-              ) : (
-                  <p style={{ color: "#fff", marginTop: 30, fontSize: 25 }}>
-                    Seems the site is Non-SSL
-                  </p>
-              )}
-            </div>
-        );
+                  <AudioPlayer audios={audios} show={audioURL !== null && showUIAudio} />
+                  <Timer time={time}/>
+                  {!recording ? (
+                      <p>Press the microphone to record</p>
+                  ) : null}
+                  <RecorderControls
+                    recording={recording}
+                    pauseRecord={pauseRecord}
+                    startRecording={(e) => this.startRecording(e)}
+                    stopRecording={(e) => this.stopRecording(e)}
+                    handleAudioStart={(e) => this.handleAudioStart(e)}
+                    handleAudioPause={(e) => this.handleAudioPause(e)}
+                  />
+                </div>
+            );
     }
 }
 
