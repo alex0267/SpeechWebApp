@@ -85,6 +85,13 @@ class MyRecorder extends Recorder {
         const { recording, audios, time, medianotFound, pauseRecord } = this.state;
         const { showUIAudio, title, audioURL } = this.props;
 
+        if (this.props.uuid)
+            return (
+                <p>
+                  You can delete this recording with this UUID: {this.props.uuid}
+                </p>
+            );
+
         if (medianotFound)
             return  (
                 <p style={{ color: "#fff", marginTop: 30, fontSize: 25 }}>
@@ -130,13 +137,21 @@ class VoiceRecorder extends React.Component {
                     h: 0,
                     m: 0,
                     s: 0
-                }
+                },
+                iiud: null,
             };
         }
         this.state = state;
     }
-    handleAudioStop(emotion){
+    handleAudioStop(emotion) {
         return data => this.setState({ ...this.state, [emotion]: data });
+    }
+    updateUuid(emotion, uuid) {
+        const newData = {
+            ...this.state[emotion],
+            uuid,
+        };
+        this.setState({ ...this.state, [emotion]: newData });
     }
     handleAudioUpload(emotion) {
         return file => {
@@ -148,7 +163,7 @@ class VoiceRecorder extends React.Component {
                 body: data
             })
                 .then(r => r.json())
-                .then(data => console.log(data));;
+                .then(data => this.updateUuid(emotion, data.uuid));
         };
     }
     handleRest(emotion) {
@@ -181,6 +196,7 @@ class VoiceRecorder extends React.Component {
                     handleAudioStop={data => this.handleAudioStop(emotion)(data)}
                     handleAudioUpload={data => this.handleAudioUpload(emotion)(data)}
                     handleRest={() => this.handleRest(emotion)()}
+                    uuid={this.state[emotion].uuid}
                 />
             </div>
         );
