@@ -19,4 +19,16 @@ h2 {
     @apply sm:text-lg sm:leading-snug font-semibold tracking-wide uppercase text-purple-600 mb-3
 }
 
+a {
+    @apply text-blue-500
+}
+
+.footer-container {
+    @apply flex items-center justify-center p-12 m-12
+}
+
+.delete-form-container {
+    @apply flex items-center justify-center
+}
+
 @tailwind utilities;

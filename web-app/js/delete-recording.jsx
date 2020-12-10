@@ -26,7 +26,11 @@ const Form = () => {
     return (
         <div>
           { errorMsg }
-          <input value={uuid} onChange={onChange} />
+          <input
+            value={uuid}
+            onChange={onChange}
+            placeholder="Recording UUID"
+            className="border-gray-400 border-2 rounded-full px-4" />
           <div onClick={onSubmit}>Submit</div>
         </div>
     );
