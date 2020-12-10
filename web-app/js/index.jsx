@@ -138,8 +138,18 @@ class VoiceRecorder extends React.Component {
     handleAudioStop(emotion){
         return data => this.setState({ ...this.state, [emotion]: data });
     }
-    handleAudioUpload(file) {
-        console.log(file);
+    handleAudioUpload(emotion) {
+        return file => {
+            const data = new FormData();
+            data.append('file', file);
+
+            fetch('/api/v0.1/create_record/' + emotion, {
+                method: 'POST',
+                body: data
+            })
+                .then(r => r.json())
+                .then(data => console.log(data));;
+        };
     }
     handleRest(emotion) {
         return () => {
@@ -169,7 +179,7 @@ class VoiceRecorder extends React.Component {
                     audioURL={this.state[emotion].url}
                     showUIAudio
                     handleAudioStop={data => this.handleAudioStop(emotion)(data)}
-                    handleAudioUpload={data => this.handleAudioUpload(data)}
+                    handleAudioUpload={data => this.handleAudioUpload(emotion)(data)}
                     handleRest={() => this.handleRest(emotion)()}
                 />
             </div>

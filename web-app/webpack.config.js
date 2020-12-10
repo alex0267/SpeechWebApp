@@ -36,7 +36,16 @@ module.exports = {
         contentBase: __dirname,
         port: 3000,
         publicPath: "http://localhost:3000/dist/",
-        hotOnly: true
+        hotOnly: true,
+        proxy: {
+            '/api': {
+                target: {
+                    host: "localhost",
+                    protocol: 'http:',
+                    port: 8081
+                },
+            }
+        }
     },
     plugins: [new webpack.HotModuleReplacementPlugin()]
 };
