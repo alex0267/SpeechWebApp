@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
+import { Button } from "./ui.jsx";
+
 
 const Form = () => {
     const [uuid, setUuid] = useState("");
@@ -31,7 +33,7 @@ const Form = () => {
             onChange={onChange}
             placeholder="Recording UUID"
             className="border-gray-400 border-2 rounded-full px-4" />
-          <div onClick={onSubmit}>Submit</div>
+          <Button onClick={onSubmit} title="Submit" />
         </div>
     );
 };
