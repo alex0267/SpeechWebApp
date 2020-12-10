@@ -2,7 +2,10 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
-    entry: "./js/index.jsx",
+    entry: {
+        "index": "./js/index.jsx",
+        "delete-recording": "./js/delete-recording.jsx"
+    },
     mode: "development",
     module: {
         rules: [
@@ -30,7 +33,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "dist/"),
         publicPath: "/dist/",
-        filename: "bundle.js"
+        filename: "[name].js"
     },
     devServer: {
         contentBase: __dirname,
