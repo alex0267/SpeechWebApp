@@ -8,7 +8,7 @@
     "build-css": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css",
     "build-js": "webpack",
     "build": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css && webpack",
-    "server": "webpack serve"
+    "server": "webpack serve --host 0.0.0.0"
   },
   "author": "Wewyse",
   "license": "ISC",
