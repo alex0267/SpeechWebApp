@@ -26,7 +26,7 @@ const Form = () => {
     const errorMsg = error ? <p>Error: {error}</p> : <div></div>;
 
     return (
-        <div>
+        <div className="flex flex-col items-center justify-center m-8">
           { errorMsg }
           <input
             value={uuid}
