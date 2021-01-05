@@ -23,11 +23,12 @@ def get_all_records(db: Session):
     return db.query(record_model.Record).all()
 
 
-def add_record(db: Session, emotion: str, file: bytes):
+def add_record(db: Session, emotion: str, sentence_id: int, file: bytes):
     """
     Create a new record in database
     :param db: database session
     :param emotion: emotion name
+    :param sentence_id: id of associated sentence
     :param file: record audio file as bytes
     :return: record
     """
@@ -35,7 +36,8 @@ def add_record(db: Session, emotion: str, file: bytes):
                 record_url="http://fake_url",
                 emotion=emotion,
                 timestamp=datetime.now(),
-                uuid=str(uuid.uuid1())
+                uuid=str(uuid.uuid1()),
+                sentence_id=sentence_id,
     )
 
     db.add(db_record)

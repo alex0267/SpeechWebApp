@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from src.database.db_init import Base
 
 
@@ -9,3 +9,4 @@ class Record(Base):
     emotion = Column(String, unique=False)
     timestamp = Column(DateTime, unique=False)
     uuid = Column(String, unique=True)
+    sentence_id = Column(Integer, ForeignKey("sentence.id"))
