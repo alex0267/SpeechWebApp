@@ -7,10 +7,12 @@ API_VERSION = Config.VERSION
 def test_create_record():
     """ Test route record creation """
     files = {'file': ('test.txt', open('test/test_router/test.txt', 'rb'))}
+    params = {'sentence_id': 1}
 
     response = client.post(
         f"/api/{API_VERSION}/create_record/happiness",
-        files=files
+        files=files,
+        params=params
     )
 
     data_test = response.json()
@@ -48,8 +50,12 @@ def test_get_all_records():
 def test_delete_record():
     """ Test route record deletion """
     files = {'file': ('test.txt', open('test/test_router/test.txt', 'rb'))}
-
-    record_test = client.post(f"/api/{API_VERSION}/create_record/happiness", files=files)
+    params = {'sentence_id': 1}
+    record_test = client.post(
+        f"/api/{API_VERSION}/create_record/happiness",
+        files=files,
+        params=params,
+    )
     record_test_json = record_test.json()
     record_test_uuid = record_test_json["uuid"]
 
