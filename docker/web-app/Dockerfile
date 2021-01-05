@@ -6,8 +6,6 @@ COPY package*.json ./
 COPY web-app .
 
 RUN npm install \
-    npm run build-css \
-    npm run build-js \
     npm run build
 
 EXPOSE 3000
