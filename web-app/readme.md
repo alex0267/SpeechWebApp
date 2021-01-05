@@ -17,3 +17,19 @@ npm run server     # start the dev server on localhost:3000 & watch JS changes
 ## Screenshot
 
 ![webapp screenshot](./img/screenshot.png)
+
+## Docker
+
+### Frontend
+
+Build:
+
+```sh
+docker build -t speech-emotion-webapp/frontend -f docker/web-app/Dockerfile .
+```
+
+Run:
+
+```sh
+docker run -p 3000:3000 speech-emotion-webapp/frontend
+```
