@@ -243,9 +243,8 @@ class VoiceRecorder extends React.Component {
 
 
 const sentence = "Il faut avoir voulu mourir, Maximilien, pour savoir combien il est bon de vivre.";
-const emotions = ['Joie', 'Tristesse', 'Colère', 'Dégoût', 'peur', 'neutre'];
+const emotions = ['Joie', 'Tristesse', 'Colère', 'Dégoût', 'Peur', 'Neutre'];
 ReactDOM.render(
     <VoiceRecorder emotions={emotions} sentence={sentence} />,
     document.getElementById("root")
 );
-
