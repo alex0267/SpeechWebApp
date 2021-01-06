@@ -142,10 +142,29 @@ class VoiceRecorder extends React.Component {
         this.state = state;
         this.updateSentence();
     }
+    resetRecords() {
+        for (let emotion of this.props.emotions) {
+            this.setState({
+                ...this.state,
+                [emotion]: {
+                    url: null,
+                    blob: null,
+                    chunks: null,
+                    duration: {
+                        h: 0,
+                        m: 0,
+                        s: 0
+                    },
+                    iiud: null,
+                }
+            });
+        }
+    }
     async updateSentence() {
         const resp = await fetch('/api/v0.1/get_random_sentence/');
         const sentence_info = await resp.json();
         this.setState({ ...this.state, sentence_info });
+        this.resetRecords();
     }
     handleAudioStop(emotion) {
         return data => this.setState({ ...this.state, [emotion]: data });
