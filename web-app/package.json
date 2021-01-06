@@ -29,6 +29,7 @@
   "dependencies": {
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-voice-recorder": "^2.0.2"
+    "react-voice-recorder": "^2.0.2",
+    "tailwindcss-cli": "^2.0.2"
   }
 }
