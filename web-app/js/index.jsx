@@ -208,10 +208,13 @@ class VoiceRecorder extends React.Component {
 
         return (
             <div>
-              <div>
-                <h2 className="p-2 mx-2 my-8">
+              <div className="flex flex-col">
+                <h2 className="p-2 mx-2 mt-8">
                   {this.state.sentence_info.sentence}
                 </h2>
+                <button className="mb-8 text-center" onClick={() => this.updateSentence()}>
+                  Next sentence
+                </button>
               </div>
               {recorders}
             </div>
