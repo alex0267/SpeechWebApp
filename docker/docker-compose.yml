@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  backend:
+    build:
+      context: ../
+      dockerfile: $PWD/docker/api/Dockerfile
+    image: speech-emotion-webapp/api:latest
+    ports:
+      - "8081:8081"
+  frontend:
+    build:
+      context: ../
+      dockerfile: $PWD/docker/web-app/Dockerfile
+    image: speech-emotion-webapp/frontend:latest
+    ports:
+      - "3000:3000"

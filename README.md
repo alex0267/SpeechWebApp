@@ -8,16 +8,8 @@
 
 ## Docker
 
-### Frontend
-
-Build:
+Build and start the web application together with the backend by typing from the root of the project:
 
 ```sh
-docker build -t speech-emotion-webapp/frontend -f docker/web-app/Dockerfile .
-```
-
-Run:
-
-```sh
-docker run -p 3000:3000 speech-emotion-webapp/frontend
+docker-compose -f ./docker/docker-compose.yml up
 ```
