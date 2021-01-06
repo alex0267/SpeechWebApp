@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from src.database.db_init import engine, Base
-from src.router import record_router, deleted_router
+from src.router import record_router, deleted_router, sentence_router
 from src.utils.logging import logger, setup_uvicorn_log_config
 from src.utils.config import config, CONFIG_ENV
 
@@ -21,6 +21,7 @@ app.add_middleware(
 
 app.include_router(record_router.router, prefix=f"/api/{API_VERSION}")
 app.include_router(deleted_router.router, prefix=f"/api/{API_VERSION}")
+app.include_router(sentence_router.router, prefix=f"/api/{API_VERSION}")
 
 
 if __name__ == "__main__":

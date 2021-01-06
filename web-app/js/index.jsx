@@ -120,7 +120,12 @@ class MyRecorder extends Recorder {
 class VoiceRecorder extends React.Component {
     constructor(props) {
         super(props);
-        const state = {};
+        const state = {
+            sentence_info: {
+                sentence: '',
+                id: -1,
+            },
+        };
         for (let emotion of this.props.emotions) {
             state[emotion] = {
                 url: null,
@@ -135,6 +140,31 @@ class VoiceRecorder extends React.Component {
             };
         }
         this.state = state;
+        this.updateSentence();
+    }
+    resetRecords() {
+        for (let emotion of this.props.emotions) {
+            this.setState({
+                ...this.state,
+                [emotion]: {
+                    url: null,
+                    blob: null,
+                    chunks: null,
+                    duration: {
+                        h: 0,
+                        m: 0,
+                        s: 0
+                    },
+                    iiud: null,
+                }
+            });
+        }
+    }
+    async updateSentence() {
+        const resp = await fetch('/api/v0.1/get_random_sentence/');
+        const sentence_info = await resp.json();
+        this.setState({ ...this.state, sentence_info });
+        this.resetRecords();
     }
     handleAudioStop(emotion) {
         return data => this.setState({ ...this.state, [emotion]: data });
@@ -150,8 +180,9 @@ class VoiceRecorder extends React.Component {
         return file => {
             const data = new FormData();
             data.append('file', file);
+            const url = `/api/v0.1/create_record/${emotion}?sentence_id=${this.state.sentence_info.id}`;
 
-            fetch('/api/v0.1/create_record/' + emotion, {
+            fetch(url, {
                 method: 'POST',
                 body: data
             })
@@ -196,10 +227,13 @@ class VoiceRecorder extends React.Component {
 
         return (
             <div>
-              <div>
-                <h2 className="p-2 mx-2 my-8">
-                  {this.props.sentence}
+              <div className="flex flex-col">
+                <h2 className="p-2 mx-2 mt-8">
+                  {this.state.sentence_info.sentence}
                 </h2>
+                <button className="mb-8 text-center" onClick={() => this.updateSentence()}>
+                  Next sentence
+                </button>
               </div>
               {recorders}
             </div>
@@ -209,9 +243,8 @@ class VoiceRecorder extends React.Component {
 
 
 const sentence = "Il faut avoir voulu mourir, Maximilien, pour savoir combien il est bon de vivre.";
-const emotions = ['Happy', 'Normal', 'Sad'];
+const emotions = ['Joie', 'Tristesse', 'Colère', 'Dégoût', 'Peur', 'Neutre'];
 ReactDOM.render(
     <VoiceRecorder emotions={emotions} sentence={sentence} />,
     document.getElementById("root")
 );
-

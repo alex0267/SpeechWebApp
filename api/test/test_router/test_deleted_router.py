@@ -16,8 +16,13 @@ def test_get_deleted():
 
     # Create a new record
     files = {'file': ('test.txt', open('test/test_router/test.txt', 'rb'))}
+    params = {'sentence_id': 1}
 
-    record_test = client.post(f"/api/{API_VERSION}/create_record/happiness", files=files)
+    record_test = client.post(
+        f"/api/{API_VERSION}/create_record/happiness",
+        files=files,
+        params=params,
+    )
     record_test_json = record_test.json()
     record_test_uuid = record_test_json["uuid"]
 
