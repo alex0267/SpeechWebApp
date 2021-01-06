@@ -2,7 +2,6 @@ FROM node:13.12.0-alpine
 
 MAINTAINER aferszterowski@wewyse.com
 
-COPY package*.json ./
 COPY web-app .
 
 RUN npm install \
