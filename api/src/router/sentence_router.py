@@ -5,6 +5,7 @@ from src.schema import sentence_schema
 from src.controller import sentence_controller
 from src.database.db_init import get_db
 from src.utils.logging import logger
+from random import randint
 
 
 router = APIRouter()
@@ -61,3 +62,14 @@ async def delete_record(id: str, db: Session = Depends(get_db)):
     else:
         logger.info("Successfully remove sentence {}".format(id))
         return {"message": "Successfully sentence {}".format(id)}
+
+
+@router.post("/get_random_sentence/", tags=["sentence"])
+async def get_random_sentence(db: Session = Depends(get_db)):
+    """
+    Get random sentence route
+    :param db: database session
+    """
+    all_db_sentences = sentence_controller.get_all_sentences(db)
+    rand_id = randint(0, len(all_db_sentences) - 1)
+    return all_db_sentences[rand_id]

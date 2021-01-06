@@ -76,3 +76,10 @@ def test_delete_sentence_not_exists():
 
     # Delete request should return 404 because sentence not exists
     assert delete_response.status_code == 404
+
+
+def test_get_random_sentence():
+    """ Test get random sentence """
+    response = client.post(f"/api/{API_VERSION}/get_random_sentence/")
+
+    assert response.status_code == 200
