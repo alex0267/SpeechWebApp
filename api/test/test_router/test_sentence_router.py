@@ -80,6 +80,6 @@ def test_delete_sentence_not_exists():
 
 def test_get_random_sentence():
     """ Test get random sentence """
-    response = client.post(f"/api/{API_VERSION}/get_random_sentence/")
+    response = client.get(f"/api/{API_VERSION}/get_random_sentence/")
 
     assert response.status_code == 200

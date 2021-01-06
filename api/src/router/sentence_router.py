@@ -64,7 +64,7 @@ async def delete_record(id: str, db: Session = Depends(get_db)):
         return {"message": "Successfully sentence {}".format(id)}
 
 
-@router.post("/get_random_sentence/", tags=["sentence"])
+@router.get("/get_random_sentence/", tags=["sentence"])
 async def get_random_sentence(db: Session = Depends(get_db)):
     """
     Get random sentence route

@@ -120,7 +120,12 @@ class MyRecorder extends Recorder {
 class VoiceRecorder extends React.Component {
     constructor(props) {
         super(props);
-        const state = {};
+        const state = {
+            sentence_info: {
+                sentence: '',
+                id: -1,
+            },
+        };
         for (let emotion of this.props.emotions) {
             state[emotion] = {
                 url: null,
@@ -135,6 +140,12 @@ class VoiceRecorder extends React.Component {
             };
         }
         this.state = state;
+        this.updateSentence();
+    }
+    async updateSentence() {
+        const resp = await fetch('/api/v0.1/get_random_sentence/');
+        const sentence_info = await resp.json();
+        this.setState({ ...this.state, sentence_info });
     }
     handleAudioStop(emotion) {
         return data => this.setState({ ...this.state, [emotion]: data });
@@ -150,8 +161,9 @@ class VoiceRecorder extends React.Component {
         return file => {
             const data = new FormData();
             data.append('file', file);
+            const url = `/api/v0.1/create_record/${emotion}?sentence_id=${this.state.sentence_info.id}`;
 
-            fetch('/api/v0.1/create_record/' + emotion, {
+            fetch(url, {
                 method: 'POST',
                 body: data
             })
@@ -198,7 +210,7 @@ class VoiceRecorder extends React.Component {
             <div>
               <div>
                 <h2 className="p-2 mx-2 my-8">
-                  {this.props.sentence}
+                  {this.state.sentence_info.sentence}
                 </h2>
               </div>
               {recorders}
