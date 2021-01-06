@@ -21,13 +21,13 @@ async def create_sentence(sentence: str, db: Session = Depends(get_db)):
 
 
 @router.get("/get_sentence/{id}", response_model=sentence_schema.Sentence, tags=["sentence"])
-async def get_sentence(sentence_id: int, db: Session = Depends(get_db)):
+async def get_sentence(id: int, db: Session = Depends(get_db)):
     """
     Get single sentence route
-    :param sentence_id: id identifying a sentence
+    :param id: id identifying a sentence
     :param db: database session
     """
-    db_sentence = sentence_controller.get_sentence(db, sentence_id)
+    db_sentence = sentence_controller.get_sentence(db, id)
     if db_sentence is None:
         logger.error("Cannot find sentence {} found in database".format(id))
         raise HTTPException(status_code=404, detail="sentence not found")
@@ -48,16 +48,16 @@ async def get_all_records(db: Session = Depends(get_db)):
 
 
 @router.delete("/delete_sentence/{id}", tags=["sentence"])
-async def delete_record(sentence_id: str, db: Session = Depends(get_db)):
+async def delete_record(id: str, db: Session = Depends(get_db)):
     """
     Delete sentence route
-    :param sentence_id: id associate to a sentence
+    :param id: id associate to a sentence
     :param db: database session
     """
-    is_deleted = sentence_controller.delete_sentence(db, sentence_id)
+    is_deleted = sentence_controller.delete_sentence(db, id)
     if is_deleted is None:
-        logger.error("Fail to delete sentence {}, sentence doesn't exist".format(sentence_id))
+        logger.error("Fail to delete sentence {}, sentence doesn't exist".format(id))
         raise HTTPException(status_code=404, detail="Sentence {} doesn't exists in database".format(sentence_id))
     else:
-        logger.info("Successfully remove sentence {}".format(sentence_id))
-        return {"message": "Successfully sentence {}".format(sentence_id)}
+        logger.info("Successfully remove sentence {}".format(id))
+        return {"message": "Successfully sentence {}".format(id)}
