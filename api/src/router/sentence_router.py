@@ -58,7 +58,7 @@ async def delete_record(id: str, db: Session = Depends(get_db)):
     is_deleted = sentence_controller.delete_sentence(db, id)
     if is_deleted is None:
         logger.error("Fail to delete sentence {}, sentence doesn't exist".format(id))
-        raise HTTPException(status_code=404, detail="Sentence {} doesn't exists in database".format(sentence_id))
+        raise HTTPException(status_code=404, detail="Sentence {} doesn't exists in database".format(id))
     else:
         logger.info("Successfully remove sentence {}".format(id))
         return {"message": "Successfully sentence {}".format(id)}
