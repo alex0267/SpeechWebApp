@@ -1,11 +1,12 @@
-FROM node:13.12.0-alpine
+FROM node:15.5.0-alpine3.12
 
 MAINTAINER aferszterowski@wewyse.com
 
 COPY web-app .
 
-RUN npm install \
-    npm run build
+RUN npm install
+RUN npm run build-css
+RUN npm run build-js
 
 EXPOSE 3000
 
