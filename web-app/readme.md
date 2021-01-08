@@ -12,6 +12,7 @@ npm run build-css  # build the CSS using Tailwind
 npm run build-js   # build the JS using webpack
 npm run build      # build both the CSS and JS
 npm run server     # start the dev server on localhost:3000 & watch JS changes
+npm run watch      # runs server and watch on css / tailwind config files 
 ```
 
 ## Screenshot
@@ -19,8 +20,6 @@ npm run server     # start the dev server on localhost:3000 & watch JS changes
 ![webapp screenshot](./img/screenshot.png)
 
 ## Docker
-
-### Frontend
 
 Build:
 

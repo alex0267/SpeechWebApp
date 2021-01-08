@@ -5,9 +5,11 @@
   "main": "index.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-css": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css",
+    "build-css": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css -c tailwind.config.js",
     "build-js": "webpack",
-    "build": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css && webpack",
+    "build": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css -c tailwind.config.js && webpack",
+    "watch:css": "nodemon -x npm run build -w css/main.css -w tailwind.config.js",
+    "watch": "run-p watch:css server",
     "server": "webpack serve --host 0.0.0.0"
   },
   "author": "Wewyse",
@@ -21,6 +23,8 @@
     "babel-preset-react-app": "^10.0.0",
     "css-loader": "^5.0.1",
     "file-loader": "^6.2.0",
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
     "style-loader": "^2.0.0",
     "webpack": "^5.10.0",
     "webpack-cli": "^4.2.0",
@@ -29,6 +33,7 @@
   "dependencies": {
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-tabs": "^3.1.2",
     "react-voice-recorder": "^2.0.2"
   }
 }

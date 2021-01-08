@@ -12,12 +12,15 @@ import pauseIcons from '../img/pause.svg';
 import stopIcon from '../img/stop.svg';
 
 
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+
+
 const Timer = ({time, show}) => {
     if (!show)
         return <div />;
     else
         return (
-            <div className="flex justify-center items-center w-80 h-12 p-2 m-2 bg-gray-400 rounded-full">
+            <div className="flex justify-center items-center w-11/12 h-12 p-2 m-2 bg-gray-400 rounded-full">
               {time.m !== undefined
                ? `${time.m <= 9 ? "0" + time.m : time.m}`
                : "00"}
@@ -31,8 +34,8 @@ const Timer = ({time, show}) => {
 
 const AudioPlayer = ({audios, show}) =>
       show ?
-      <div  className="flex items-center justify-center p-2 m-2 h-12">
-        <audio controls className="w-80 rounded-full">
+      <div  className="flex items-center justify-center m-2 h-12 w-full">
+        <audio controls className="w-11/12 rounded-full">
             <source src={audios[0]} type="audio/ogg" />
             <source src={audios[0]} type="audio/mpeg" />
         </audio>
@@ -55,7 +58,8 @@ const RecorderControls = props => {
                 <ImageButton
                 onClick={e => startRecording(e)}
                 imgPath={microphone}
-                altText="Microphone icon"/>
+                altText="Microphone icon"
+                buttonName="microphone-button"/>
             </div>
         );
     else
@@ -81,7 +85,7 @@ class MyRecorder extends Recorder {
         if (this.props.uuid)
             return (
                 <p>
-                  You can delete this recording with this UUID: {this.props.uuid}
+                  Vous pouvez <a href="/delete-recording.html">supprimer</a> cet enregistrement avec cet identifiant: {this.props.uuid}
                 </p>
             );
 
@@ -93,7 +97,7 @@ class MyRecorder extends Recorder {
             );
         else
             return (
-                <div className="flex flex-row">
+                <div className="flex flex-col justify-center items-center w-11/12">
                   <RecorderControls
                     recording={recording}
                     pauseRecord={pauseRecord}
@@ -107,10 +111,10 @@ class MyRecorder extends Recorder {
                   <div className="flex flex-row">
                     <Button
                       onClick={() => this.props.handleAudioUpload(this.state.audioBlob)}
-                      title="Upload" />
+                      title="Sauvegarder" />
                     <Button
                       onClick={(e) => this.handleRest(e)}
-                      title="Clear" />
+                      title="Effacer" />
                   </div>
                 </div>
             );
@@ -207,14 +211,16 @@ class VoiceRecorder extends React.Component {
     }
     render() {
         const emotion = this.props.emotions[0];
+        const emotiontab =this.props.emotions.map((emotion, i) =>
+            <Tab key={i}>
+                {emotion}
+            </Tab>
+        );
         const recorders = this.props.emotions.map((emotion, i) =>
-            <div className="flex justify-center items-center" key={i}>
-                <div className="flex justify-center items-center w-20">
-                  {emotion}
-                </div>
+            <TabPanel key={i}>
                 <MyRecorder
                     record={true}
-                    title={"New recording"}
+                    title={emotion}
                     audioURL={this.state[emotion].url}
                     showUIAudio
                     handleAudioStop={data => this.handleAudioStop(emotion)(data)}
@@ -222,20 +228,32 @@ class VoiceRecorder extends React.Component {
                     handleRest={() => this.handleRest(emotion)()}
                     uuid={this.state[emotion].uuid}
                 />
-            </div>
+            </TabPanel>                  
         );
 
         return (
             <div>
-              <div className="flex flex-col">
-                <h2 className="p-2 mx-2 mt-8">
+              <div className="flex flex-col items-center">
+                <p className="p-2 mx-2 mt-8">Phrase à prononcer selon l'émotion sélectionnée: </p>
+                <h3 className="p-2 mx-2 mt-2">
                   {this.state.sentence_info.sentence}
-                </h2>
-                <button className="mb-8 text-center" onClick={() => this.updateSentence()}>
-                  Next sentence
-                </button>
+                </h3>
+                <Button onClick={() => this.updateSentence()} title='Autre phrase' extraClass="w-3/12 mb-8" />
               </div>
-              {recorders}
+              <Tabs>
+                <div className="tab-wrapper">
+                <TabList>
+                    {emotiontab}
+                </TabList>
+                </div>
+                <div className="scroll-arrows">
+                  <div className="float-left">&lt;</div>
+                  <div className="float-right">&gt;</div>
+                </div>
+                {recorders}
+              </Tabs>
+
+              
             </div>
         );
     }

@@ -6,29 +6,93 @@
     @apply px-4 py-2 bg-blue-600 text-white rounded;
 }
 
-h1, h2 {
+h1, h2, h3 {
     @apply text-center
 }
 
 
-h1 {
-    @apply text-4xl sm:text-6xl lg:text-7xl leading-none font-extrabold tracking-tight text-gray-900 mt-10 mb-8 sm:mt-14 sm:mb-10
+h2 {
+    @apply text-4xl leading-none font-extrabold tracking-tight text-gray-900 mt-10 mb-8 sm:mt-14 sm:mb-10
 }
 
-h2 {
+h3 {
     @apply sm:text-lg sm:leading-snug font-semibold tracking-wide uppercase text-purple-600 mb-3
 }
 
 a {
-    @apply text-blue-500
+    @apply text-blue-500 hover:underline
+}
+
+.button {
+  @apply hover:underline
 }
 
 .footer-container {
-    @apply flex items-center justify-center p-12 m-12
+    @apply flex items-center justify-center m-12
+}
+
+.footer-container > p {
+  @apply text-center
 }
 
 .delete-form-container {
     @apply flex items-center justify-center
+}
+
+.react-tabs {
+  @apply flex flex-col md:flex-row mx-4 justify-center
+}
+
+.react-tabs__tab-list {
+  @apply flex flex-row items-start md:items-stretch md:flex-col m-0 p-0 min-w-min
+}
+
+.react-tabs__tab {
+  @apply list-none py-2 px-6 hover:underline cursor-default text-gray-300
+}
+
+.react-tabs__tab--selected {
+  @apply border-r-0 border-b-2 md:border-r-2 md:border-b-0 border-black text-black
+}
+
+.react-tabs__tab-panel {
+  @apply hidden
+}
+
+.react-tabs__tab-panel--selected {
+  @apply flex border-l-0 md:border-l border-gray-300 justify-center w-full md:w-min p-5 self-stretch
+}
+
+.react-tabs__tab {
+  @apply pl-4 flex-grow-0 flex-shrink-0 md:flex-grow md:flex-shrink
+}
+
+.react-tabs__tab--selected {
+  @apply pl-4
+}
+
+.microphone-button {
+  @apply p-2 rounded-full bg-gray-200
+}
+
+.microphone-button:hover {
+  @apply bg-gray-400
+}
+
+.react-tabs__tab-panel--selected > p {
+  @apply self-center
+}
+
+.tab-wrapper {
+  @apply flex-nowrap md:flex-wrap overflow-x-auto w-full md:w-min relative
+}
+
+.tab-wrapper::-webkit-scrollbar {
+  @apply hidden
+}
+
+.scroll-arrows {
+  @apply sticky left-0 w-full border-t border-gray-300 text-gray-300 md:hidden
 }
 
 @tailwind utilities;
