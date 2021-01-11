@@ -1,9 +1,11 @@
 name: Python package
 
-on: [push]
-  branches: [ dev ]
+on:
+  push:
     paths:
       - api/**
+    branches:
+      - dev
 defaults:
   run:
     working-directory: api

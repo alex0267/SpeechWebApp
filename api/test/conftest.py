@@ -10,6 +10,10 @@ from src.app import app
 
 @pytest.fixture()
 def resource():
+    """
+    dummy one
+    :return:
+    """
     print("setup")
     yield "resource"
     print("teardown")
