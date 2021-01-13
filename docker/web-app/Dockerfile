@@ -10,4 +10,4 @@ RUN npm run build-js
 
 EXPOSE 3000
 
-CMD [ "npm", "run", "docker-server"]
+CMD ["npm", "run", "server"]

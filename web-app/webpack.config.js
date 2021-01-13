@@ -43,7 +43,7 @@ module.exports = env => ({
         proxy: {
             '/api': {
                 target: {
-                    host: env ? env.HOST : "localhost",
+                    host: env ? env.BACKEND_HOSTNAME : "localhost",
                     protocol: 'http:',
                     port: 8081
                 },
