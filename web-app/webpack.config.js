@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 
-module.exports = {
+module.exports = env => ({
     entry: {
         "index": "./js/index.jsx",
         "delete-recording": "./js/delete-recording.jsx"
@@ -43,7 +43,7 @@ module.exports = {
         proxy: {
             '/api': {
                 target: {
-                    host: "localhost",
+                    host: env ? env.BACKEND_HOSTNAME : "localhost",
                     protocol: 'http:',
                     port: 8081
                 },
@@ -51,4 +51,4 @@ module.exports = {
         }
     },
     plugins: [new webpack.HotModuleReplacementPlugin()]
-};
+});

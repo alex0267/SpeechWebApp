@@ -10,7 +10,7 @@
     "build": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css -c tailwind.config.js && webpack",
     "watch:css": "nodemon -x npm run build -w css/main.css -w tailwind.config.js",
     "watch": "run-p watch:css server",
-    "server": "webpack serve --host 0.0.0.0"
+    "server": "webpack serve --host 0.0.0.0 --env BACKEND_HOSTNAME=$BACKEND_HOSTNAME"
   },
   "author": "Wewyse",
   "license": "ISC",

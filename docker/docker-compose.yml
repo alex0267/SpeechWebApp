@@ -8,6 +8,8 @@ services:
     ports:
       - "8081:8081"
   frontend:
+    environment:
+      - BACKEND_HOSTNAME=backend
     build:
       context: ../
       dockerfile: $PWD/docker/web-app/Dockerfile

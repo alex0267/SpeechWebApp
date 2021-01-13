@@ -10,4 +10,4 @@ RUN npm run build-js
 
 EXPOSE 3000
 
-CMD [ "npm", "run", "server"]
+CMD ["npm", "run", "server"]
