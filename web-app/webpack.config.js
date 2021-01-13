@@ -43,7 +43,7 @@ module.exports = {
         proxy: {
             '/api': {
                 target: {
-                    host: "localhost",
+                    host: "backend",
                     protocol: 'http:',
                     port: 8081
                 },
