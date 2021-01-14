@@ -46,7 +46,7 @@ jobs:
         run: docker-compose -f ./docker/docker-compose.yml build
       - name: Sleep
         uses: jakejarvis/wait-action@master
-          with:
-            time: '60s'
+        with:
+          time: '60s'
       - name: Test with pytest
         run: docker-compose -f ./docker/docker-compose.yml run backend pytest
