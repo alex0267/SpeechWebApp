@@ -20,6 +20,9 @@ launch tests in docker
 docker-compose -f ./docker/docker-compose.yml run backend pytest
 ```
 
+TODO :
+ - split docker compose file 
+
 ## Local dev
 
 ### Backend
