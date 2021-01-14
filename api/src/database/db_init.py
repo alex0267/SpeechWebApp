@@ -4,15 +4,21 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
+def db_url_string():
+    user = os.getenv("POSTGRES_USER")
+    password = os.getenv("POSTGRES_PASSWORD")
+    db = os.getenv("POSTGRES_PASSWORD")
+    host = os.getenv("POSTGRES_HOST")
+    return f"postgresql+psycopg2://{user}:{password}@{host}:5432/{db}"
+
+
 if os.getenv("DB_URL") is None:
-    SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app.db"
+    DATABASE_URL = db_url_string()
 else:
-    SQLALCHEMY_DATABASE_URL = os.environ["DB_URL"]
+    DATABASE_URL = os.environ["DB_URL"]
 
 # Create SQLALchemy engine
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

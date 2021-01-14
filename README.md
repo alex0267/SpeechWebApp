@@ -13,3 +13,9 @@ Build and start the web application together with the backend by typing from the
 ```sh
 docker-compose -f ./docker/docker-compose.yml up
 ```
+
+launch tests in docker 
+
+```sh
+docker-compose -f ./docker/docker-compose.yml run backend pytest
+```

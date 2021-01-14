@@ -1,6 +1,6 @@
 import uuid
 from sqlalchemy.orm import Session
-from src.model import record_model
+from model import record_model
 from datetime import datetime
 
 

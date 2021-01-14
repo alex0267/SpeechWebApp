@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List
 from sqlalchemy.orm import Session
-from src.schema import record_schema
-from src.controller import record_controller, deleted_controller
-from src.database.db_init import get_db
-from src.utils.logging import logger
+from schema import record_schema
+from controller import record_controller, deleted_controller
+from database.db_init import get_db
+from utils.logging import logger
 from fastapi import File
 
 

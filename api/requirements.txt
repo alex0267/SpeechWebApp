@@ -20,3 +20,6 @@ starlette==0.13.6
 toml==0.10.2
 urllib3==1.26.2
 uvicorn==0.12.3
+alembic==1.4.3
+fastapi-sqlalchemy==0.2.1
+psycopg2-binary==2.8.6

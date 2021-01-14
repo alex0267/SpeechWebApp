@@ -1,12 +1,15 @@
-from src.utils.config import Config
+from utils.config import Config
+from model.sentence_model import Sentence
 
 API_VERSION = Config.VERSION
 
 
-def test_create_record(test_file_obj,client_setup):
+def test_create_record(test_file_obj, helpers):
     """ Test route record creation """
-    client_app, _ = client_setup
-    params = {'sentence_id': 1}
+    client_app, client_session = helpers.client_setup()
+    sentence_id = client_session.query(Sentence).first().id
+    params = {'sentence_id': sentence_id}
+    client_session.close()
 
     response = client_app.post(
         f"/api/{API_VERSION}/create_record/happiness",
@@ -25,28 +28,32 @@ def test_create_record(test_file_obj,client_setup):
     assert record_test.json()["uuid"] == data_test["uuid"]
 
 
-def test_get_record_not_exists(client_setup):
+def test_get_record_not_exists(helpers):
     """ Test route get single record - based on its uuid """
-    client_app, _ = client_setup
+    client_app, _ = helpers.client_setup()
     response = client_app.get(f"/api/{API_VERSION}/get_record/fake-uuid")
     assert response.status_code == 404
 
 
-def test_get_all_records(test_file_obj,client_setup):
+def test_get_all_records(test_file_obj, helpers):
     """ Test route get all records """
-    client_app,_ = client_setup
-
-    response = client_app.post(f"/api/{API_VERSION}/create_record/happiness",files=test_file_obj)
+    client_app, client_session = helpers.client_setup()
+    sentence_id = client_session.query(Sentence).first().id
+    params = {'sentence_id': sentence_id}
+    client_session.close()
+    response = client_app.post(f"/api/{API_VERSION}/create_record/happiness", files=test_file_obj, params=params)
     response = client_app.get(f"/api/{API_VERSION}/get_all_records")
     response_data = response.json()
     assert response.status_code == 200
     assert len(response_data) != 0
 
 
-def test_delete_record(test_file_obj,client_setup):
+def test_delete_record(test_file_obj, helpers):
     """ Test route record deletion """
-    client_app, _ = client_setup
-    params = {'sentence_id': 1}
+    client_app, client_session = helpers.client_setup()
+    sentence_id = client_session.query(Sentence).first().id
+    client_session.close()
+    params = {'sentence_id': sentence_id}
     record_test = client_app.post(
         f"/api/{API_VERSION}/create_record/happiness",
         files=test_file_obj,
@@ -70,9 +77,9 @@ def test_delete_record(test_file_obj,client_setup):
     assert response_data["uuid"] == record_test_uuid
 
 
-def test_delete_record_not_exists(client_setup):
+def test_delete_record_not_exists(helpers):
     """ Test delete record request with fake uuid """
-    client_app, _ = client_setup
+    client_app, _ = helpers.client_setup()
     delete_response = client_app.delete(f"/api/{API_VERSION}/detele_record/fake-uuid")
 
     # Delete request should return 404 because record not exists

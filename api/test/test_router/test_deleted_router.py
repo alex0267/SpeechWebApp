@@ -1,21 +1,24 @@
-from src.utils.config import Config
-
+from utils.config import Config
+from model.sentence_model import Sentence
 API_VERSION = Config.VERSION
 
 
-def test_get_deleted_not_exists(client_setup):
+
+def test_get_deleted_not_exists(helpers):
     """ Test get deleted record that not exists"""
-    client_app, _ = client_setup
+    client_app, _ = helpers.client_setup()
     response = client_app.get(f"/api/{API_VERSION}/get_deleted/a-fake-uuid")
 
     assert response.status_code == 404
 
 
-def test_get_deleted(test_file_obj,client_setup):
+def test_get_deleted(test_file_obj,helpers):
     """ Test get deleted record that exists """
-    client_app, _ = client_setup
+    client_app, client_session = helpers.client_setup()
     # Create a new record
-    params = {'sentence_id': 1}
+    sentence_id=client_session.query(Sentence).first().id
+    client_session.close()
+    params = {'sentence_id': sentence_id}
 
     record_test = client_app.post(
         f"/api/{API_VERSION}/create_record/happiness",
@@ -34,8 +37,8 @@ def test_get_deleted(test_file_obj,client_setup):
     assert response.status_code == 200
 
 
-def test_get_all_deleted(client_setup):
+def test_get_all_deleted(helpers):
     """Test get all deleted records"""
-    client_app, _ = client_setup
+    client_app, _ = helpers.client_setup()
     response = client_app.get(f"/api/{API_VERSION}/get_all_deleted/")
     assert response.status_code == 200

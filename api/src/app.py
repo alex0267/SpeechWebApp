@@ -1,10 +1,10 @@
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from src.database.db_init import engine, Base
-from src.router import record_router, deleted_router, sentence_router
-from src.utils.logging import logger, setup_uvicorn_log_config
-from src.utils.config import config, CONFIG_ENV
+from database.db_init import engine, Base
+from router import record_router, deleted_router, sentence_router
+from utils.logging import logger, setup_uvicorn_log_config
+from utils.config import config, CONFIG_ENV
 
 API_VERSION = config[CONFIG_ENV].VERSION
 
@@ -29,4 +29,3 @@ if __name__ == "__main__":
     logger.info("Swagger documentation is accessible at http://{}:{}/docs"
                 .format(config[CONFIG_ENV].HOST, config[CONFIG_ENV].PORT))
     uvicorn.run(app, host=config[CONFIG_ENV].HOST, port=config[CONFIG_ENV].PORT)
-
