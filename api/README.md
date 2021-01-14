@@ -1,6 +1,8 @@
 # SpeechWebApp Api v0.1
 
 ## Install requirements
+
+from current folder 
 ```
 pip install -r requirements.txt
 ```
