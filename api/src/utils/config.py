@@ -1,28 +1,51 @@
 import os
+from pathlib import Path
 
-CONFIG_ENV = os.getenv("CONFIG")
-
-if CONFIG_ENV is None:
-    CONFIG_ENV = "dev"
-
+CONFIG_ENV = os.getenv("CONFIG","dev")
 
 class Config:
     VERSION = "v0.1"
     HOST = "0.0.0.0"
     PORT = 8081
     DB_URL = ""
+    GOOGLE_APPLICATION_CREDENTIALS_PATH = str(Path(Path(__file__).parent.parent.parent,"credentials.json"))
+    POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")
+    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "postgres")
+    POSTGRES_DB = os.getenv("POSTGRES_DB", "test_db")
+    POSTGRES_HOST = os.getenv("POSTGRES_HOST", "db")
+    POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
+    PROJECT_ID = "wewyse-centralesupelec-ftv"
+
+    @classmethod
+    def db_url_string(cls):
+        return f"postgresql+psycopg2://{cls.POSTGRES_USER}:{cls.POSTGRES_PASSWORD}@{cls.POSTGRES_HOST}:{cls.POSTGRES_PORT}/{cls.POSTGRES_DB}"
 
 
 class DevConfig(Config):
-    DB_URL = "sqlite:///./sql_app.db"
+    CONFIG_ENV = "dev"
+    BUCKET_NAME = "swa-dev-bucket"
 
 
 class TestConfig(Config):
     CONFIG_ENV = "test"
-    DB_URL = "sqlite:///./sql_app.db"
+    BUCKET_NAME = "swa-test-bucket"
 
 
-config = dict(
-    dev=DevConfig,
-    test=TestConfig
-)
+class ProdConfig(Config):
+    CONFIG_ENV = "prod"
+    BUCKET_NAME = "swa-prod-bucket"
+
+
+config = dict(dev=DevConfig, test=TestConfig, prod=ProdConfig)
+
+EXT_TO_MIMETYPE = {
+    ".ogg" : "audio/ogg",
+    ".ogv": "audio/ogg",
+    ".oga": "audio/ogg",
+    ".ogx": "audio/ogg",
+    ".ogm": "audio/ogg",
+    ".spx": "audio/ogg",
+    ".opus": "audio/ogg",
+    ".weba":	"audio/webm",
+    ".webm":	"video/webm",
+    ".wav":    "audio/wav"}

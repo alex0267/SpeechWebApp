@@ -2,18 +2,11 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
-
-def db_url_string():
-    user = os.getenv("POSTGRES_USER")
-    password = os.getenv("POSTGRES_PASSWORD")
-    db = os.getenv("POSTGRES_PASSWORD")
-    host = os.getenv("POSTGRES_HOST")
-    return f"postgresql+psycopg2://{user}:{password}@{host}:5432/{db}"
+from utils.config import config,CONFIG_ENV
 
 
 if os.getenv("DB_URL") is None:
-    DATABASE_URL = db_url_string()
+    DATABASE_URL = config[CONFIG_ENV].db_url_string()
 else:
     DATABASE_URL = os.environ["DB_URL"]
 

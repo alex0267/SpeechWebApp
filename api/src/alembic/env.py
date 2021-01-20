@@ -2,13 +2,11 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-from database.db_init import db_url_string
 from alembic import context
+from utils.config import config as general_config,CONFIG_ENV
 
 import os, sys
-#from dotenv import load_dotenv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#load_dotenv(os.path.join(BASE_DIR, ".env"))
 sys.path.append(BASE_DIR)
 
 # this is the Alembic Config object, which provides
@@ -17,7 +15,7 @@ config = context.config
 
 # this will overwrite the ini-file sqlalchemy.url path
 # with the path given in the config of the main code
-config.set_main_option("sqlalchemy.url", os.environ.get("DATABASE_URL",db_url_string()))
+config.set_main_option("sqlalchemy.url", os.environ.get("DATABASE_URL",general_config[CONFIG_ENV].db_url_string()))
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

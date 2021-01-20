@@ -15,7 +15,7 @@ from model.record_model import Record
 from model.deleted_model import Deleted
 from model.sentence_model import Sentence
 from sqlalchemy import create_engine
-from database.db_init import db_url_string
+from utils.config import config, CONFIG_ENV
 
 # revision identifiers, used by Alembic.
 revision = '90cc4d7dc7b1'
@@ -27,7 +27,7 @@ depends_on = None
 def upgrade():
     bind = op.get_bind()
     session = orm.Session(bind=bind)
-    engine = create_engine(db_url_string())
+    engine = create_engine(config[CONFIG_ENV].db_url_string())
 
     if not engine.dialect.has_table(engine,Sentence.__tablename__):
         op.create_table(
@@ -47,7 +47,7 @@ def upgrade():
         op.create_table(
             'record',
             Column('id', Integer, primary_key=True,index=True),
-            Column('record_url', String(50), nullable=False),
+            Column('record_url', String(100), nullable=False),
             Column('emotion', String(50), nullable=False),
             Column('timestamp', DateTime(), nullable=False),
             Column('uuid', String(50), nullable=False),

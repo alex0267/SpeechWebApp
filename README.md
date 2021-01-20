@@ -11,18 +11,14 @@
 Build and start the web application together with the backend by typing from the root of the project:
 
 ```sh
-docker-compose -f ./docker/docker-compose.yml up
+docker-compose -f ./docker/docker-compose.yml -f/.docker/test.yml up
 ```
 
 launch tests in docker 
 
 ```sh
-docker-compose -f ./docker/docker-compose.yml run backend pytest
+docker-compose -f ./docker/docker-compose.yml -f/.docker/test.yml run backend pytest
 ```
-
-TODO :
-
- - split docker compose file 
 
 ## Local dev
 

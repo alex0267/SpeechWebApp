@@ -2,7 +2,9 @@ import uuid
 from sqlalchemy.orm import Session
 from model import record_model
 from datetime import datetime
-
+from fastapi import UploadFile
+from utils.config import config, CONFIG_ENV
+from pathlib import Path
 
 def get_record(db: Session, record_uuid: str):
     """
@@ -23,20 +25,30 @@ def get_all_records(db: Session):
     return db.query(record_model.Record).all()
 
 
-def add_record(db: Session, emotion: str, sentence_id: int, file: bytes):
+def add_record(db: Session, emotion: str, sentence_id: int, file: UploadFile):
     """
     Create a new record in database
     :param db: database session
     :param emotion: emotion name
     :param sentence_id: id of associated sentence
-    :param file: record audio file as bytes
+    :param file: record audio file as Uploadfile
     :return: record
     """
+
+    #upload file
+    import gcsfs
+    my_uuid = str(uuid.uuid1())
+    my_url = f"{config[CONFIG_ENV].BUCKET_NAME}/{my_uuid}{Path(file.filename).suffix}"
+    my_complete_url = f"gs://{my_url}"
+    fs = gcsfs.GCSFileSystem(project=config[CONFIG_ENV].PROJECT_ID,token=config[CONFIG_ENV].GOOGLE_APPLICATION_CREDENTIALS_PATH)
+
+    with fs.open(my_url, 'ab') as f:
+        f.write(file.file.read())
     db_record = record_model.Record(
-                record_url="http://fake_url",
+                record_url=my_complete_url,
                 emotion=emotion,
                 timestamp=datetime.now(),
-                uuid=str(uuid.uuid1()),
+                uuid=my_uuid,
                 sentence_id=sentence_id,
     )
 
@@ -57,6 +69,12 @@ def delete_record(db: Session, record_uuid: str):
 
     record_to_delete = db.query(record_model.Record).filter(record_model.Record.uuid == record_uuid)
     deleted_record = record_to_delete.delete()
+
+    from utils.gc_utils import get_gcs_client
+    client = get_gcs_client()
+    bucket = client.bucket(config[CONFIG_ENV].BUCKET_NAME)
+    for blob in bucket.list_blobs(prefix='record_uuid'):
+        blob.delete()
 
     if deleted_record == 0:
         return None

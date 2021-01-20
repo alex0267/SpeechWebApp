@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, UploadFile
 from typing import List
 from sqlalchemy.orm import Session
 from schema import record_schema
@@ -12,11 +12,11 @@ router = APIRouter()
 
 
 @router.post("/create_record/{emotion}", response_model=record_schema.Record, tags=["record"])
-async def create_record(emotion: str, sentence_id: int, file: bytes = File(...), db: Session = Depends(get_db)):
+async def create_record(emotion: str, sentence_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
     """
     Create record route
     :param emotion: emotion name
-    :param file: file as bytes
+    :param file: file as UploadFile
     :param db: database session
     """
     return record_controller.add_record(db, emotion, sentence_id, file)
