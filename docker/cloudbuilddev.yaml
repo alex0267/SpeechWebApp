@@ -1,9 +1,9 @@
 #cloudbuilddev.yaml
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ["build",'-t', 'gcr.io/$PROJECT_ID/api:latest']
+    args: ["build",'-t', 'gcr.io/$PROJECT_ID/api:latest',"-f" ,"./docker/api/Dockerfile"]
   - name: 'gcr.io/cloud-builders/docker'
-    args: ["build",'-t', 'gcr.io/$PROJECT_ID/frontend:latest']
+    args: ["build",'-t', 'gcr.io/$PROJECT_ID/frontend:latest',"-f" ,"./docker/web-app/Dockerfile]
 #  - name: 'gcr.io/$PROJECT_ID/docker-compose'
 #    args: ["-f", "./docker/docker-compose.yml", "-f","/.docker/dev.yml", 'up']
 #  - name: 'gcr.io/cloud-builders/docker'
