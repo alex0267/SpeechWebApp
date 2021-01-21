@@ -2,8 +2,11 @@
 steps:
   - name: 'docker/compose:1.19.0'
     args: ["-f", "./docker/docker-compose.yml", "-f","/.docker/dev.yml", 'build']
+    id: 'build'
   - name: 'gcr.io/cloud-builders/docker'
     args: ['tag', 'speech-emotion-webapp/api:latest', 'gcr.io/$PROJECT_ID/$REPO_NAME/api:$COMMIT_SHA']
+    wait_for: ['build']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['tag', 'speech-emotion-webapp/frontend:latest', 'gcr.io/$PROJECT_ID/$REPO_NAME/frontend:$COMMIT_SHA']
+    wait_for: ['build']
 images: ['gcr.io/$PROJECT_ID/$REPO_NAME/api:$COMMIT_SHA','gcr.io/$PROJECT_ID/$REPO_NAME/frontend:$COMMIT_SHA']
