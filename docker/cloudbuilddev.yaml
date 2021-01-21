@@ -5,5 +5,5 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['tag', 'speech-emotion-webapp/api:latest', 'gcr.io/$PROJECT_ID/$REPO_NAME/api:$COMMIT_SHA']
   - name: 'gcr.io/cloud-builders/docker'
-      args: ['tag', 'speech-emotion-webapp/frontend:latest', 'gcr.io/$PROJECT_ID/$REPO_NAME/frontend:$COMMIT_SHA']
+    args: ['tag', 'speech-emotion-webapp/frontend:latest', 'gcr.io/$PROJECT_ID/$REPO_NAME/frontend:$COMMIT_SHA']
 images: ['gcr.io/$PROJECT_ID/$REPO_NAME/api:$COMMIT_SHA','gcr.io/$PROJECT_ID/$REPO_NAME/frontend:$COMMIT_SHA']
