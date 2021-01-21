@@ -1,20 +1,11 @@
-version: "3"
+version: "3.3"
 
 networks:
   internal:
     external: false
-
-x-common-variables: &common-variables
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: postgres
-  POSTGRES_DB: test_db
-  POSTGRES_HOST: db
-  POSTGRES_PORT: 5432
-
 services:
   db:
     image: postgres:11
-    environment: *common-variables
     networks:
       - internal
   backend:
@@ -23,7 +14,6 @@ services:
       dockerfile: $PWD/docker/api/Dockerfile
     image: speech-emotion-webapp/api:latest
     environment:
-      <<: *common-variables
       PYTHONPATH: /home/app/src
     networks:
       - internal
