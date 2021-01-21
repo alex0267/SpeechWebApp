@@ -1,5 +1,4 @@
 #cloudbuilddev.yaml
-
 steps:
   - name: 'docker/compose:1.19.0'
     args: ["-f", "./docker/docker-compose.yml", "-f","/.docker/dev.yml", 'up', '-d']
