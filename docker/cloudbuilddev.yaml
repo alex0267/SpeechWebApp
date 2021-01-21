@@ -9,7 +9,7 @@ steps:
 #  - name: 'gcr.io/cloud-builders/docker'
 #      args: [ 'push', 'gcr.io/$PROJECT_ID/frontend:latest' ]
   - name: 'gcr.io/$PROJECT_ID/docker-compose'
-    args: ["-f", "./docker/docker-compose.yml", "-f","/.docker/dev.yml", 'up']
+    args: ["-f", "./docker/docker-compose.yml", "-f","./docker/dev.yml", 'up']
 #  - name: 'gcr.io/cloud-builders/docker'
 #    args: ['tag', 'speech-emotion-webapp/api:latest', 'gcr.io/$PROJECT_ID/$REPO_NAME/api:$COMMIT_SHA']
 #  - name: 'gcr.io/cloud-builders/docker'
