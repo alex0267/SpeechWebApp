@@ -2,7 +2,7 @@
 
 steps:
   - name: 'docker/compose:1.19.0'
-    args: ['up', '-d']
+    args: ["-f", "./docker/docker-compose.yml", "-f","/.docker/dev.yml", 'up', '-d']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['tag', 'workspace_app:latest', 'gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA']
 images: ['gcr.io/$PROJECT_ID/$REPO_NAME:$COMMIT_SHA']
