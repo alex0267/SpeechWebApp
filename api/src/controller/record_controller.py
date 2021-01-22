@@ -1,9 +1,9 @@
 import uuid
 from sqlalchemy.orm import Session
-from model import record_model
+from src.model import record_model
 from datetime import datetime
 from fastapi import UploadFile
-from utils.config import config, CONFIG_ENV
+from src.utils.config import config, CONFIG_ENV
 from pathlib import Path
 
 def get_record(db: Session, record_uuid: str):

@@ -5,25 +5,17 @@ networks:
     external: false
 services:
   backend:
-    build:
-      context: ../
-      dockerfile: $PWD/docker/api/Dockerfile
     image: speech-emotion-webapp/api:latest
     environment:
       PYTHONPATH: /home/app/src
     networks:
       - internal
-    volumes:
-      - $PWD/api:/home/app
-    command: "/home/app/wait-for-postgres.sh /home/app/start.sh"
+    # command: "/home/app/wait-for-postgres.sh /home/app/start.sh"
     ports:
-      - "8081:8081"
+      - "8080:8080"
   frontend:
     environment:
       - BACKEND_HOSTNAME=backend
-    build:
-      context: ../
-      dockerfile: $PWD/docker/web-app/Dockerfile
     image: speech-emotion-webapp/frontend:latest
     networks:
       - internal

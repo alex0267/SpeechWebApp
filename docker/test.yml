@@ -1,6 +1,11 @@
 version: "3.3"
 services:
   backend:
+    build:
+      context: /workspace
+      dockerfile: /workspace/docker/api/Dockerfile
+    volumes:
+      - /workspace/api:/home/app
     environment:
       CONFIG: test
       POSTGRES_USER: postgres
@@ -10,6 +15,10 @@ services:
       POSTGRES_PORT: 5432
     depends_on:
       - db
+  frontend:
+    build:
+      context: /workspace
+      dockerfile: /workspace/docker/web-app/Dockerfile
   db:
     image: postgres:11
     networks:

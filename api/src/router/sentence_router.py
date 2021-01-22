@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from sqlalchemy.orm import Session
-from schema import sentence_schema
-from controller import sentence_controller
-from database.db_init import get_db
-from utils.logging import logger
+from src.schema import sentence_schema
+from src.controller import sentence_controller
+from src.database.db_init import get_db
+from src.utils.logging import logger
 from random import randint
 
 

@@ -11,11 +11,12 @@ from sqlalchemy import orm
 from sqlalchemy import Column, Integer, DateTime, String
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
-from model.record_model import Record
-from model.deleted_model import Deleted
-from model.sentence_model import Sentence
+from src.model.record_model import Record
+from src.model.deleted_model import Deleted
+from src.model.sentence_model import Sentence
 from sqlalchemy import create_engine
-from utils.config import config, CONFIG_ENV
+from sqlalchemy_utils import database_exists, create_database
+from src.utils.config import config, CONFIG_ENV
 
 # revision identifiers, used by Alembic.
 revision = '90cc4d7dc7b1'
@@ -28,6 +29,9 @@ def upgrade():
     bind = op.get_bind()
     session = orm.Session(bind=bind)
     engine = create_engine(config[CONFIG_ENV].db_url_string())
+    # Create database if it does not exist.
+    if not database_exists(engine.url):
+        create_database(engine.url)
 
     if not engine.dialect.has_table(engine,Sentence.__tablename__):
         op.create_table(

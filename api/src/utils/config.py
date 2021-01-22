@@ -6,7 +6,7 @@ CONFIG_ENV = os.getenv("CONFIG","dev")
 class Config:
     VERSION = "v0.1"
     HOST = "0.0.0.0"
-    PORT = 8081
+    PORT = 8080
     DB_URL = ""
     GOOGLE_APPLICATION_CREDENTIALS_PATH = str(Path(Path(__file__).parent.parent.parent,"credentials.json"))
     POSTGRES_USER = os.getenv("POSTGRES_USER", "postgres")

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from database.db_init import Base
+from src.database.db_init import Base
 from sqlalchemy.sql import func
 
 class Record(Base):

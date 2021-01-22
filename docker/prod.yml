@@ -1,6 +1,11 @@
 version: "3.3"
 services:
   backend:
+    build:
+      context: /workspace
+      dockerfile: /workspace/docker/api/Dockerfile
+    volumes:
+      - /workspace/api:/home/app
     environment:
       CONFIG: prod
       POSTGRES_USER: ${POSTGRES_USER_PROD}
@@ -8,3 +13,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB_PROD}
       POSTGRES_HOST: ${POSTGRES_HOST_PROD}
       POSTGRES_PORT: ${POSTGRES_PORT}
+  frontend:
+    build:
+      context: /workspace
+      dockerfile: /workspace/docker/web-app/Dockerfile

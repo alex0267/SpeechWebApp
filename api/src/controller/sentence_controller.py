@@ -1,6 +1,6 @@
 import uuid
 from sqlalchemy.orm import Session
-from model.sentence_model import Sentence
+from src.model.sentence_model import Sentence
 from datetime import datetime
 
 

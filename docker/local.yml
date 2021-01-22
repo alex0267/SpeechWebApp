@@ -1,0 +1,19 @@
+version: "3.3"
+services:
+  backend:
+    build:
+      context: ../
+      dockerfile: $PWD/docker/api/Dockerfile
+    volumes:
+      - /workspace/api:/home/app
+    environment:
+      CONFIG: dev
+      POSTGRES_USER: ${POSTGRES_USER_DEV}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_DEV}
+      POSTGRES_DB: ${POSTGRES_DB_DEV}
+      POSTGRES_HOST: ${POSTGRES_HOST_DEV}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+  frontend:
+    build:
+      context: ../
+      dockerfile: $PWD/docker/web-app/Dockerfile

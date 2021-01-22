@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from model import deleted_model
+from src.model import deleted_model
 from datetime import datetime
 
 
