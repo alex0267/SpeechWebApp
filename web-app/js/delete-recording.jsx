@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 
 import { Button } from "./ui.jsx";
 
+import { apiHost } from './constants.js';
 
 const Form = () => {
     const [uuid, setUuid] = useState("");
@@ -10,13 +11,13 @@ const Form = () => {
 
     const onChange = e => setUuid(event.target.value);
     const onSubmit = async () => {
-        const r = await fetch(`/api/v0.1/delete_record/${uuid}`, {
+        const r = await fetch(`${apiHost}/api/v0.1/delete_record/${uuid}`, {
             method: "DELETE",
         });
         const json = await r.json();
         if (r.status == 200) {
             console.log(json);
-            window.location = "/delete-recording-success.html";
+            window.location = "/delete-recording-success";
         } else {
             setError(json.detail);
             setUuid("");

@@ -11,6 +11,8 @@ import microphone from '../img/microphone.svg';
 import pauseIcons from '../img/pause.svg';
 import stopIcon from '../img/stop.svg';
 
+import { apiHost } from './constants.js';
+
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
@@ -165,7 +167,7 @@ class VoiceRecorder extends React.Component {
         }
     }
     async updateSentence() {
-        const resp = await fetch('/api/v0.1/get_random_sentence/');
+        const resp = await fetch(`${apiHost}/api/v0.1/get_random_sentence/`);
         const sentence_info = await resp.json();
         this.setState({ ...this.state, sentence_info });
         this.resetRecords();
@@ -184,7 +186,7 @@ class VoiceRecorder extends React.Component {
         return file => {
             const data = new FormData();
             data.append('file', file);
-            const url = `/api/v0.1/create_record/${emotion}?sentence_id=${this.state.sentence_info.id}`;
+            const url = `${apiHost}/api/v0.1/create_record/${emotion}?sentence_id=${this.state.sentence_info.id}`;
 
             fetch(url, {
                 method: 'POST',

@@ -5,9 +5,9 @@
   "main": "index.jsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-css": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css -c tailwind.config.js",
+    "build-css": "npx tailwindcss-cli@latest build css/main.css -o static/main.css -c tailwind.config.js",
     "build-js": "webpack",
-    "build": "npx tailwindcss-cli@latest build css/main.css -o dist/main.css -c tailwind.config.js && webpack",
+    "build": "npx tailwindcss-cli@latest build css/main.css -o static/main.css -c tailwind.config.js && webpack",
     "watch:css": "nodemon -x npm run build -w css/main.css -w tailwind.config.js",
     "watch": "run-p watch:css server",
     "server": "webpack serve --host 0.0.0.0 --env BACKEND_HOSTNAME=$BACKEND_HOSTNAME"
