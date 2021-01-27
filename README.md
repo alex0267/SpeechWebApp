@@ -11,7 +11,7 @@
 Build and start the web application together with the backend by typing from the root of the project:
 
 ```sh
-docker-compose -f ./docker/docker-compose.yml -f/.docker/test.yml up
+docker-compose -f ./docker/docker-compose.yml -f ./docker/test.yml up
 ```
 
 launch tests in docker 
