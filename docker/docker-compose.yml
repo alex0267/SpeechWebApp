@@ -10,7 +10,6 @@ services:
       PYTHONPATH: /home/app/
     networks:
       - internal
-    # command: "/home/app/wait-for-postgres.sh /home/app/start.sh"
     ports:
       - "8081:8081"
   frontend:

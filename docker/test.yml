@@ -2,12 +2,13 @@ version: "3.3"
 services:
   backend:
     build:
-      context: /workspace
-      dockerfile: /workspace/docker/api/Dockerfile
+      context: ../
+      dockerfile: $PWD/docker/api/Dockerfile
+    command: "/home/app/wait-for-postgres.sh /home/app/start.sh"
     volumes:
-      - /workspace/api:/home/app
+      - $PWD/api:/home/app
     environment:
-      CONFIG: test
+      CONFIG: dev
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: test_db
@@ -17,8 +18,8 @@ services:
       - db
   frontend:
     build:
-      context: /workspace
-      dockerfile: /workspace/docker/web-app/Dockerfile
+      context: ../
+      dockerfile: $PWD/docker/web-app/Dockerfile
   db:
     image: postgres:11
     networks:

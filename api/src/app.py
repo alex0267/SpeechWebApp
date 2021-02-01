@@ -9,7 +9,11 @@ from .utils.config import config, CONFIG_ENV
 API_VERSION = config[CONFIG_ENV].VERSION
 
 Base.metadata.create_all(bind=engine)
-app = FastAPI(title="SpeechApi", version=API_VERSION)
+if CONFIG_ENV == "test":
+    app = FastAPI(title="SpeechApi", version=API_VERSION)
+else:
+    app = FastAPI(title="SpeechApi", version=API_VERSION, 
+                  docs_url=None, redoc_url=None)
 
 app.add_middleware(
     CORSMiddleware,
