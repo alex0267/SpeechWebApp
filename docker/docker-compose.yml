@@ -7,12 +7,12 @@ services:
   backend:
     image: speech-emotion-webapp/api:latest
     environment:
-      PYTHONPATH: /home/app/src
+      PYTHONPATH: /home/app/
     networks:
       - internal
     # command: "/home/app/wait-for-postgres.sh /home/app/start.sh"
     ports:
-      - "8080:8080"
+      - "8081:8081"
   frontend:
     environment:
       - BACKEND_HOSTNAME=backend

@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-ENV PORT=8080
+ENV PORT=8081
 
 MAINTAINER aferszterowski@wewyse.com
 
@@ -24,6 +24,6 @@ RUN ["chmod", "+x", "/home/app/start.sh"]
 RUN ["chmod", "+x", "/home/app/wait-for-postgres.sh"]
 
 WORKDIR /home/app/
-EXPOSE 8080
+EXPOSE 8081
 
 CMD ["/home/app/start.sh"]

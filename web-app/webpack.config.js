@@ -46,7 +46,7 @@ module.exports = env => ({
                 target: {
                     host: env ? env.BACKEND_HOSTNAME : "localhost",
                     protocol: 'http:',
-                    port: 8080
+                    port: 8081
                 },
             }
         }

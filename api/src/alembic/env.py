@@ -8,7 +8,7 @@ import os, sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
-from src.utils.config import config as general_config, CONFIG_ENV
+from utils.config import config as general_config, CONFIG_ENV
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -16,7 +16,7 @@ config = context.config
 
 # this will overwrite the ini-file sqlalchemy.url path
 # with the path given in the config of the main code
-config.set_main_option("sqlalchemy.url", os.environ.get("DATABASE_URL",general_config[CONFIG_ENV].db_url_string()))
+config.set_main_option("sqlalchemy.url", os.environ.get("DATABASE_URL", general_config[CONFIG_ENV].db_url_string()))
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -26,7 +26,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from src.database.db_init import Base
+from database.db_init import Base
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,

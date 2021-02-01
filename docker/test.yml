@@ -22,7 +22,7 @@ services:
   db:
     image: postgres:11
     networks:
-        - internal
+      - internal
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
