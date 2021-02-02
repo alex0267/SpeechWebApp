@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from src.database.db_init import Base
+from database.db_init import Base
 
 
 class Sentence(Base):

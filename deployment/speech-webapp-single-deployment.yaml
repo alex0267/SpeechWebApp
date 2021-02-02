@@ -16,6 +16,7 @@ spec:
       containers:
       - name: backend
         image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/api@sha256:cacd6df9386a74aba74beefd22db280558fa2adf4200a98c2911b0bc1fc7ea82
+        workingDir: /home/app/src
         ports:
         - containerPort: 8081
         env:
@@ -33,7 +34,7 @@ spec:
                 name: postgres-password-dev
                 key: db_pass
           - name: PYTHONPATH
-            value: '/home/app/'
+            value: '/home/app/src'
       - name: frontend
         image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/frontend@sha256:f722a0201507aafae0fff9d55fe3944c4f898822e3c143c8d7a87cba662d58b8
         ports:
