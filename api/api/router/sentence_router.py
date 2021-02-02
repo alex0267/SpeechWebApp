@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from sqlalchemy.orm import Session
-from schema import sentence_schema
-from controller import sentence_controller
-from database.db_init import get_db
-from utils.logging import logger
 from random import randint
+from api.schema import sentence_schema
+from api.controller import sentence_controller
+from api.database.db_init import get_db
+from api.utils.logging import logger
 
 
 router = APIRouter()

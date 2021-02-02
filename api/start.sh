@@ -1,4 +1,4 @@
 #!/bin/bash
 
 alembic upgrade head
-python -m src.app
+python -m api.app
