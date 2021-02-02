@@ -35,3 +35,4 @@ kubectl apply -f ./deployment/speech-webapp-single-deployment.yaml
 ```
 
 - Add a load balancer from the interface.
+- Setup domain name, SSL certificates etc.
