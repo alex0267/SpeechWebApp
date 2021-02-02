@@ -30,6 +30,7 @@ app.include_router(sentence_router.router, prefix=f"/api/{API_VERSION}")
 
 if __name__ == "__main__":
     setup_uvicorn_log_config()
-    logger.info("Swagger documentation is accessible at http://{}:{}/docs"
-                .format(config[CONFIG_ENV].HOST, config[CONFIG_ENV].PORT))
+    if CONFIG_ENV == "test":
+        logger.info("Swagger documentation is accessible at http://{}:{}/docs"
+                    .format(config[CONFIG_ENV].HOST, config[CONFIG_ENV].PORT))
     uvicorn.run("src.app:app", host=config[CONFIG_ENV].HOST, port=config[CONFIG_ENV].PORT)
