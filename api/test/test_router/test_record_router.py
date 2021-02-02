@@ -1,5 +1,5 @@
-from utils.config import Config
-from model.sentence_model import Sentence
+from api.utils.config import Config
+from api.model.sentence_model import Sentence
 
 API_VERSION = Config.VERSION
 

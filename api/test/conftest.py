@@ -3,9 +3,9 @@ from pathlib import Path
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database.db_init import get_db, Base
-from app import app
-from utils.config import config, CONFIG_ENV
+from api.database.db_init import get_db, Base
+from api.app import app
+from api.utils.config import config, CONFIG_ENV
 
 @pytest.fixture()
 def resource():
@@ -35,8 +35,8 @@ class Helpers:
         return TestClient(app),TestingSessionLocal()
     @staticmethod
     def purge_data():
-        from model.record_model import Record
-        from model.deleted_model import Deleted
+        from api.model.record_model import Record
+        from api.model.deleted_model import Deleted
         _ , session= Helpers.client_setup()
         session.query(Record).delete()
         session.query(Deleted).delete()
@@ -44,7 +44,7 @@ class Helpers:
         session.close()
     @staticmethod
     def purge_bucket():
-        from utils.gc_utils import get_gcs_client
+        from api.utils.gc_utils import get_gcs_client
         client = get_gcs_client()
         bucket = client.bucket(config[CONFIG_ENV].BUCKET_NAME)
         for blob in bucket.list_blobs():
