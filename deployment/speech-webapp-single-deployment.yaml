@@ -11,11 +11,10 @@ spec:
     metadata:
       labels:
         app: speech-webapp
-        network/internal: "true"
     spec:
       containers:
       - name: backend
-        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/api@sha256:b377cae2137b3e69c5254b23111764c1e2ebb8e59b2f76d4ac88ce91d680da24
+        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/api@sha256:1406efa4538b386bf859d215559f4d2e69f39f4d11eb62d08915ebc321dcdaa9
         workingDir: /home/app
         ports:
         - containerPort: 8081
@@ -36,20 +35,6 @@ spec:
           - name: PYTHONPATH
             value: '/home/app'
       - name: frontend
-        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/frontend@sha256:ed333c9d5f0e9be35280c9bf60596fa6172f6114d3e8dcef062f0496682b7716
+        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/frontend@sha256:f9ed7381738258e19be36a8b5cac22245bace3672bb32ec582c9876e5f5d566d
         ports:
         - containerPort: 3000
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: internal
-spec:
-  ingress:
-    - from:
-        - podSelector:
-            matchLabels:
-              network/internal: "true"
-  podSelector:
-    matchLabels:
-      network/internal: "true"

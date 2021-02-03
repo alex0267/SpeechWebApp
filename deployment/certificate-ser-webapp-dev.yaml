@@ -1,0 +1,7 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: certificate-ser-webapp-dev
+spec:
+  domains:
+    - dev.speech-emotion-recognition.app
