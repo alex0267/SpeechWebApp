@@ -1,10 +1,10 @@
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from api.database.db_init import engine, Base
-from api.router import record_router, deleted_router, sentence_router
-from api.utils.logging import logger, setup_uvicorn_log_config
-from api.utils.config import config, CONFIG_ENV
+from ser_api.database.db_init import engine, Base
+from ser_api.router import record_router, deleted_router, sentence_router
+from ser_api.utils.logging import logger, setup_uvicorn_log_config
+from ser_api.utils.config import config, CONFIG_ENV
 
 API_VERSION = config[CONFIG_ENV].VERSION
 

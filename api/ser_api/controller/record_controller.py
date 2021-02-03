@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from fastapi import UploadFile
 from pathlib import Path
-from api.model import record_model
-from api.utils.config import config, CONFIG_ENV
+from ser_api.model import record_model
+from ser_api.utils.config import config, CONFIG_ENV
 
 
 def get_record(db: Session, record_uuid: str):

@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.sql import func
-from api.database.db_init import Base
+from ser_api.database.db_init import Base
 
 class Record(Base):
     __tablename__ = "record"

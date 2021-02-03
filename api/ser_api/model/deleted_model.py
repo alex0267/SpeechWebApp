@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from api.database.db_init import Base
+from ser_api.database.db_init import Base
 
 class Deleted(Base):
     __tablename__ = "deleted"

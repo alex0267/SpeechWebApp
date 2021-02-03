@@ -1,7 +1,7 @@
 import datetime
-from api.controller.record_controller import get_all_records
-from api.model.record_model import Record
-from api.model.sentence_model import Sentence
+from ser_api.controller.record_controller import get_all_records
+from ser_api.model.record_model import Record
+from ser_api.model.sentence_model import Sentence
 
 def test_get_all_records(helpers):
     helpers.purge_data()

@@ -11,12 +11,12 @@ from sqlalchemy import orm
 from sqlalchemy import Column, Integer, DateTime, String
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
-from api.model.record_model import Record
-from api.model.deleted_model import Deleted
-from api.model.sentence_model import Sentence
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
-from api.utils.config import config, CONFIG_ENV
+from ser_api.model.record_model import Record
+from ser_api.model.deleted_model import Deleted
+from ser_api.model.sentence_model import Sentence
+from ser_api.utils.config import config, CONFIG_ENV
 
 # revision identifiers, used by Alembic.
 revision = '90cc4d7dc7b1'
