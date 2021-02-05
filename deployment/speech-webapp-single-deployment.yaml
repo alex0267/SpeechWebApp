@@ -18,6 +18,12 @@ spec:
         workingDir: /home/app
         ports:
         - containerPort: 8081
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /api/v0.1/get_random_sentence/
+          initialDelaySeconds: 30
+          periodSeconds: 3
         env:
           - name: POSTGRES_HOST
             value: "10.69.192.3"
