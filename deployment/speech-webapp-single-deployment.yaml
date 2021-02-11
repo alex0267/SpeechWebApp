@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/api
+        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/api@sha256:a06cfc9475be29dc4f3e48b1d5c3c062abed04747b3e6ebb2966943ac4fc0db1
         workingDir: /home/app
         ports:
         - containerPort: 8081
