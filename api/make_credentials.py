@@ -7,7 +7,7 @@ CLIENT_ID = os.environ.get("CREDENTIALS_CLIENT_ID")
 file_content = f"""{{
   "type": "service_account",
   "project_id": "wewyse-centralesupelec-ftv",
-  "private_key_id": "-----BEGIN PRIVATE KEY-----\n{PRIVATE_KEY_ID}\n-----END PRIVATE KEY-----\n",
+  "private_key_id": "{PRIVATE_KEY_ID}",
   "private_key": "{PRIVATE_KEY}",
   "client_email": "terraform-307@wewyse-centralesupelec-ftv.iam.gserviceaccount.com",
   "client_id": "{CLIENT_ID}",

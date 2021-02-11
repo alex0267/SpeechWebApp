@@ -33,6 +33,24 @@ spec:
             value: "5432"
           - name: POSTGRES_USER
             value: "postgres"
+
+          - name: CREDENTIALS_PRIVATE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: bucket-credentials
+                key: private_key
+          - name: CREDENTIALS_PRIVATE_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: bucket-credentials
+                key: private_key_id
+          - name: CREDENTIALS_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: bucket-credentials
+                key: client_id
+
+
           - name: POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
