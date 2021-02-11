@@ -4,4 +4,5 @@ metadata:
   name: certificate-ser-webapp-dev
 spec:
   domains:
-    - dev.speech-emotion-recognition.app
+    - speech-emotion-recognition.app
+    - www.speech-emotion-recognition.app
