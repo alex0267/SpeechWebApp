@@ -9,7 +9,10 @@ steps:
         echo -e "POSTGRES_DB_DEV="$(gcloud secrets versions access latest --secret=POSTGRES_DB_DEV --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
         echo -e "POSTGRES_PORT="$(gcloud secrets versions access latest --secret=POSTGRES_PORT --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
         echo -e "POSTGRES_USER_DEV="$(gcloud secrets versions access latest --secret=POSTGRES_USER_DEV --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
-        echo -e "POSTGRES_PASSWORD_DEV="$(gcloud secrets versions access latest --secret=POSTGRES_PASSWORD_DEV --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env
+        echo -e "POSTGRES_PASSWORD_DEV="$(gcloud secrets versions access latest --secret=POSTGRES_PASSWORD_DEV --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
+        echo -e "CREDENTIALS_SECRET_KEY="$(gcloud secrets versions access latest --secret=CREDENTIALS_SECRET_KEY --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
+        echo -e "CREDENTIALS_SECRET_KEY_ID="$(gcloud secrets versions access latest --secret=CREDENTIALS_SECRET_KEY_ID --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
+        echo -e "CREDENTIALS_CLIENT_ID="$(gcloud secrets versions access latest --secret=CREDENTIALS_CLIENT_ID --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env
   - name: 'gcr.io/$PROJECT_ID/docker-compose'
     args: ["-f", "./docker/docker-compose.yml", "-f", "./docker/dev.yml", "--env-file", "/workspace/variables.env", 'build']
     dir: '/workspace'

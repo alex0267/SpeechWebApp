@@ -24,6 +24,9 @@ RUN ["chmod", "+x", "/home/app/start.sh"]
 RUN ["chmod", "+x", "/home/app/wait-for-postgres.sh"]
 
 WORKDIR /home/app/
+
+RUN ["python", "make_credentials.json"]
+
 EXPOSE 8081
 
 CMD ["/home/app/start.sh"]
