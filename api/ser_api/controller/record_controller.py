@@ -74,7 +74,7 @@ def delete_record(db: Session, record_uuid: str):
     from ser_api.utils.gc_utils import get_gcs_client
     client = get_gcs_client()
     bucket = client.bucket(config[CONFIG_ENV].BUCKET_NAME)
-    for blob in bucket.list_blobs(prefix='record_uuid'):
+    for blob in bucket.list_blobs(prefix=record_uuid):
         blob.delete()
 
     if deleted_record == 0:
