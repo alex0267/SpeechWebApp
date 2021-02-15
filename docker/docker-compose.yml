@@ -8,6 +8,9 @@ services:
     image: speech-emotion-webapp/api:latest
     environment:
       PYTHONPATH: /home/app/
+      CREDENTIALS_PRIVATE_KEY_ID: $CREDENTIALS_PRIVATE_KEY_ID
+      CREDENTIALS_PRIVATE_KEY: $CREDENTIALS_PRIVATE_KEY
+      CREDENTIALS_CLIENT_ID: $CREDENTIALS_CLIENT_ID
     networks:
       - internal
     ports:
