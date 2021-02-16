@@ -17,7 +17,7 @@ steps:
     args: ["-f", "./docker/docker-compose.yml", "-f", "./docker/dev.yml", "--env-file", "/workspace/variables.env", 'build']
     dir: '/workspace'
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'speech-emotion-webapp/api:latest', 'gcr.io/$PROJECT_ID/speech-web-app/api:$SHORT_SHA']
+    args: ['tag', 'speech-emotion-webapp/api:latest', 'gcr.io/$PROJECT_ID/speech-web-app/api:latest']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'speech-emotion-webapp/frontend:latest', 'gcr.io/$PROJECT_ID/speech-web-app/frontend:$SHORT_SHA']
-images: ['gcr.io/$PROJECT_ID/speech-web-app/api','gcr.io/$PROJECT_ID/speech-web-app/frontend']
+    args: ['tag', 'speech-emotion-webapp/frontend:latest', 'gcr.io/$PROJECT_ID/speech-web-app/frontend:latest']
+images: ['gcr.io/$PROJECT_ID/speech-web-app/api:latest','gcr.io/$PROJECT_ID/speech-web-app/frontend:latest']
