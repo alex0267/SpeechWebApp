@@ -20,4 +20,4 @@ steps:
     args: ['tag', 'speech-emotion-webapp/api:latest', 'gcr.io/$PROJECT_ID/speech-web-app/api:$SHORT_SHA']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['tag', 'speech-emotion-webapp/frontend:latest', 'gcr.io/$PROJECT_ID/speech-web-app/frontend:$SHORT_SHA']
-images: ['gcr.io/$PROJECT_ID/speech-web-app/api:$SHORT_SHA','gcr.io/$PROJECT_ID/speech-web-app/frontend:$SHORT_SHA']
+images: ['gcr.io/$PROJECT_ID/speech-web-app/api:$SHORT_SHA','gcr.io/$PROJECT_ID/speech-web-app/frontend:$SHORT_SHA', 'gcr.io/$PROJECT_ID/speech-emotion-webapp/api:latest', 'gcr.io/$PROJECT_ID/speech-emotion-webapp/frontend:latest']
