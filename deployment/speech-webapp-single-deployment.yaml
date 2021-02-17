@@ -22,7 +22,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /api/v0.1/get_random_sentence/
-            port: 80
+            port: 8081
           initialDelaySeconds: 30
           periodSeconds: 3
         env:
