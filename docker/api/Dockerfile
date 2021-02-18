@@ -1,5 +1,7 @@
 FROM python:3.9-slim
 
+ENV PORT=8081
+
 MAINTAINER aferszterowski@wewyse.com
 
 RUN apt-get update && apt-get install -y gnupg2 && apt-get install -y wget
@@ -22,4 +24,7 @@ RUN ["chmod", "+x", "/home/app/start.sh"]
 RUN ["chmod", "+x", "/home/app/wait-for-postgres.sh"]
 
 WORKDIR /home/app/
+
 EXPOSE 8081
+
+CMD ["/home/app/start.sh"]

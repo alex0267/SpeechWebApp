@@ -1,8 +1,7 @@
 import uuid
 from sqlalchemy.orm import Session
-from model.sentence_model import Sentence
 from datetime import datetime
-
+from ser_api.model.sentence_model import Sentence
 
 def get_sentence(db: Session, sentence_id: int):
     """

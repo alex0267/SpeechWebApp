@@ -1,15 +1,19 @@
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from database.db_init import engine, Base
-from router import record_router, deleted_router, sentence_router
-from utils.logging import logger, setup_uvicorn_log_config
-from utils.config import config, CONFIG_ENV
+from ser_api.database.db_init import engine, Base
+from ser_api.router import record_router, deleted_router, sentence_router
+from ser_api.utils.logging import logger, setup_uvicorn_log_config
+from ser_api.utils.config import config, CONFIG_ENV
 
 API_VERSION = config[CONFIG_ENV].VERSION
 
 Base.metadata.create_all(bind=engine)
-app = FastAPI(title="SpeechApi", version=API_VERSION)
+if CONFIG_ENV == "test":
+    app = FastAPI(title="SpeechApi", version=API_VERSION)
+else:
+    app = FastAPI(title="SpeechApi", version=API_VERSION, 
+                  docs_url=None, redoc_url=None)
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,6 +30,7 @@ app.include_router(sentence_router.router, prefix=f"/api/{API_VERSION}")
 
 if __name__ == "__main__":
     setup_uvicorn_log_config()
-    logger.info("Swagger documentation is accessible at http://{}:{}/docs"
-                .format(config[CONFIG_ENV].HOST, config[CONFIG_ENV].PORT))
+    if CONFIG_ENV == "test":
+        logger.info("Swagger documentation is accessible at http://{}:{}/docs"
+                    .format(config[CONFIG_ENV].HOST, config[CONFIG_ENV].PORT))
     uvicorn.run(app, host=config[CONFIG_ENV].HOST, port=config[CONFIG_ENV].PORT)

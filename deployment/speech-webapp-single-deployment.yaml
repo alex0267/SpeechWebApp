@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: speech-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: speech-webapp
+  template:
+    metadata:
+      labels:
+        app: speech-webapp
+    spec:
+      containers:
+      - name: backend
+        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/api:latest
+        workingDir: /home/app
+        ports:
+        - containerPort: 8081
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /api/v0.1/get_random_sentence/
+            port: 8081
+          initialDelaySeconds: 30
+          periodSeconds: 3
+        env:
+          - name: POSTGRES_HOST
+            value: "10.69.192.3"
+          - name: POSTGRES_DB
+            value: "test_db"
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: POSTGRES_USER
+            value: "postgres"
+
+          - name: CREDENTIALS_PRIVATE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: bucket-credentials
+                key: private_key
+          - name: CREDENTIALS_PRIVATE_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: bucket-credentials
+                key: private_key_id
+          - name: CREDENTIALS_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: bucket-credentials
+                key: client_id
+
+
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-password-dev
+                key: db_pass
+          - name: PYTHONPATH
+            value: '/home/app'
+      - name: frontend
+        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/frontend:latest
+        ports:
+        - containerPort: 3000

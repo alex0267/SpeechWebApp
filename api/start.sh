@@ -1,5 +1,5 @@
 #!/bin/bash
 
-
 alembic upgrade head
-python -m src.app
+python make_credentials.py
+python -m ser_api.app

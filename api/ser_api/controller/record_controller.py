@@ -1,10 +1,11 @@
 import uuid
 from sqlalchemy.orm import Session
-from model import record_model
 from datetime import datetime
 from fastapi import UploadFile
-from utils.config import config, CONFIG_ENV
 from pathlib import Path
+from ser_api.model import record_model
+from ser_api.utils.config import config, CONFIG_ENV
+
 
 def get_record(db: Session, record_uuid: str):
     """
@@ -70,10 +71,10 @@ def delete_record(db: Session, record_uuid: str):
     record_to_delete = db.query(record_model.Record).filter(record_model.Record.uuid == record_uuid)
     deleted_record = record_to_delete.delete()
 
-    from utils.gc_utils import get_gcs_client
+    from ser_api.utils.gc_utils import get_gcs_client
     client = get_gcs_client()
     bucket = client.bucket(config[CONFIG_ENV].BUCKET_NAME)
-    for blob in bucket.list_blobs(prefix='record_uuid'):
+    for blob in bucket.list_blobs(prefix=record_uuid):
         blob.delete()
 
     if deleted_record == 0:

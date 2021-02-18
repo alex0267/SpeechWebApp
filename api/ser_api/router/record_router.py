@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException, Depends, UploadFile
 from typing import List
 from sqlalchemy.orm import Session
-from schema import record_schema
-from controller import record_controller, deleted_controller
-from database.db_init import get_db
-from utils.logging import logger
 from fastapi import File
+from ser_api.schema import record_schema
+from ser_api.controller import record_controller, deleted_controller
+from ser_api.database.db_init import get_db
+from ser_api.utils.logging import logger
 
 
 router = APIRouter()

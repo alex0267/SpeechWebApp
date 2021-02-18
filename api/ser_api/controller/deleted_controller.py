@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from model import deleted_model
 from datetime import datetime
+from ser_api.model import deleted_model
 
 
 def get_deleted_record(db: Session, record_uuid: str):

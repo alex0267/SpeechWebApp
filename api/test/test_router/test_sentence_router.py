@@ -1,6 +1,6 @@
-from utils.config import Config
 from sqlalchemy.exc import IntegrityError
-from model.sentence_model import Sentence
+from ser_api.model.sentence_model import Sentence
+from ser_api.utils.config import Config
 
 API_VERSION = Config.VERSION
 

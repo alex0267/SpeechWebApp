@@ -1,6 +1,12 @@
 version: "3.3"
 services:
   backend:
+    build:
+      context: ../
+      dockerfile: $PWD/docker/api/Dockerfile
+    command: "/home/app/wait-for-postgres.sh /home/app/start.sh"
+    volumes:
+      - $PWD/api:/home/app
     environment:
       CONFIG: test
       POSTGRES_USER: postgres
@@ -10,10 +16,14 @@ services:
       POSTGRES_PORT: 5432
     depends_on:
       - db
+  frontend:
+    build:
+      context: ../
+      dockerfile: $PWD/docker/web-app/Dockerfile
   db:
     image: postgres:11
     networks:
-        - internal
+      - internal
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

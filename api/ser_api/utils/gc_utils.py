@@ -1,5 +1,5 @@
 from google.cloud import storage
-from utils.config import config, CONFIG_ENV
+from .config import config, CONFIG_ENV
 from google.api_core.exceptions import BadRequest
 
 #get client

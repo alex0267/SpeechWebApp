@@ -40,6 +40,7 @@ module.exports = env => ({
         port: 3000,
         publicPath: "http://localhost:3000/static/",
         hotOnly: true,
+        disableHostCheck: true, 
         proxy: {
             '/api': {
                 target: {
