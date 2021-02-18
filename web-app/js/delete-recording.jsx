@@ -24,7 +24,7 @@ const Form = () => {
         }
     };
 
-    const errorMsg = error ? <p>Error: {error}</p> : <div></div>;
+    const errorMsg = error ? <p>Erreur: {error}</p> : <div></div>;
 
     return (
         <div className="flex flex-col items-center justify-center m-8">
@@ -32,9 +32,9 @@ const Form = () => {
           <input
             value={uuid}
             onChange={onChange}
-            placeholder="Recording UUID"
+            placeholder="Identifiant"
             className="border-gray-400 border-2 rounded-full px-4" />
-          <Button onClick={onSubmit} title="Submit" />
+          <Button onClick={onSubmit} title="Effacer" />
         </div>
     );
 };

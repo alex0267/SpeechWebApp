@@ -17,7 +17,23 @@ steps:
     args: ["-f", "./docker/docker-compose.yml", "-f", "./docker/dev.yml", "--env-file", "/workspace/variables.env", 'build']
     dir: '/workspace'
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'speech-emotion-webapp/api:latest', 'gcr.io/$PROJECT_ID/speech-web-app/api:latest']
+    args: ['tag', 'speech-emotion-webapp/api:latest', 'gcr.io/$PROJECT_ID/speech-web-app/api:$COMMIT_SHA']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'speech-emotion-webapp/frontend:latest', 'gcr.io/$PROJECT_ID/speech-web-app/frontend:latest']
-images: ['gcr.io/$PROJECT_ID/speech-web-app/api:latest','gcr.io/$PROJECT_ID/speech-web-app/frontend:latest']
+    args: ['tag', 'speech-emotion-webapp/frontend:latest', 'gcr.io/$PROJECT_ID/speech-web-app/frontend:$COMMIT_SHA']
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/speech-web-app/api:$COMMIT_SHA"]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/speech-web-app/frontend:$COMMIT_SHA"]
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: /bin/bash
+    args:
+      - -c 
+      - sed -i "s/VERSION_TAG/${COMMIT_SHA}/g" ./deployment/speech-webapp-single-deployment.yaml
+    dir: "/workspace"
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+    - run
+    - --filename=./deployment/speech-webapp-single-deployment.yaml
+    - --location=europe-west1-b
+    - --cluster=speech-webapp-cluster-dev
+    dir: "/workspace"
