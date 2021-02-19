@@ -26,7 +26,7 @@ module.exports = env => ({
                         loader: 'file-loader',
                     },
                 ],
-            }
+            },
         ]
     },
     resolve: { extensions: ["*", ".js", ".jsx"] },

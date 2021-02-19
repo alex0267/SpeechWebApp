@@ -20,6 +20,10 @@ services:
     build:
       context: ../
       dockerfile: $PWD/docker/web-app/Dockerfile
+      target: base
+    volumes:
+      - $PWD/web-app:/app
+    command: ["npm", "run", "watch"]
   db:
     image: postgres:11
     networks:

@@ -238,7 +238,9 @@ class VoiceRecorder extends React.Component {
               <div className="flex flex-col items-center">
                 <p className="p-2 mx-2 mt-8">Phrase à prononcer selon l'émotion sélectionnée: </p>
                 <h3 className="p-2 mx-2 mt-2">
-                  {this.state.sentence_info.sentence}
+                  <span>
+                      {this.state.sentence_info.sentence}
+                  </span>
                 </h3>
                 <Button onClick={() => this.updateSentence()} title='Autre phrase' extraClass="w-3/12 mb-8" />
               </div>

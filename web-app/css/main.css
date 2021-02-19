@@ -2,8 +2,37 @@
 @tailwind base;
 @tailwind components;
 
+@font-face {
+  font-family: 'FranceTVBrown';
+  font-style: normal;
+  src: url("./fonts/FranceTVBrown-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: 'FranceTVBrown';
+  font-weight: bold;
+  src: url("./fonts/FranceTVBrown-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: 'FranceTVBrown';
+  font-style: italic;
+  src: url("./fonts/FranceTVBrown-Italic.otf") format("opentype");
+}
+
+@font-face {
+  font-family: 'FranceTVBrown';
+  font-weight: bold;
+  font-style: italic;
+  src: url("./fonts/FranceTVBrown-BoldItalic.otf") format("opentype");
+}
+
+body {
+  @apply font-sans
+}
+
 .btn {
-    @apply px-4 py-2 bg-blue-600 text-white rounded;
+    @apply px-4 py-2 bg-blue-600 text-white rounded
 }
 
 h1, h2, h3 {
@@ -12,15 +41,24 @@ h1, h2, h3 {
 
 
 h2 {
-    @apply text-4xl leading-none font-extrabold tracking-tight text-gray-900 mt-10 mb-8 sm:mt-14 sm:mb-10
+    @apply text-2xl leading-none font-extrabold tracking-tight text-white bg-electric-blue mt-10 mb-8 sm:mt-14 sm:mb-6 p-2 inline-flex items-center justify-center
 }
 
 h3 {
-    @apply sm:text-lg sm:leading-snug font-semibold tracking-wide uppercase text-purple-600 mb-3
+    @apply sm:text-lg sm:leading-snug font-semibold tracking-wide uppercase mb-3
+}
+
+h3 > span {
+  background: linear-gradient(0deg, #FBFC00 50%, #FFFFFF 50%);
+  background-clip: padding-box;
+}
+
+body > p {
+  @apply text-center
 }
 
 a {
-    @apply text-blue-500 hover:underline
+    @apply text-electric-blue hover:underline
 }
 
 .button {
@@ -28,7 +66,7 @@ a {
 }
 
 .footer-container {
-    @apply flex items-center justify-center m-12
+    @apply flex items-center justify-center mt-12
 }
 
 .footer-container > p {
@@ -93,6 +131,18 @@ a {
 
 .scroll-arrows {
   @apply sticky left-0 w-full border-t border-gray-300 text-gray-300 md:hidden
+}
+
+.logos, .title {
+  @apply flex flex-col md:flex-row items-center justify-center mt-6
+}
+
+.logos > a > img {
+  @apply w-2/3 md:w-1/5 lg:w-56
+}
+
+.delete-form-container iframe {
+  @apply my-6
 }
 
 @tailwind utilities;
