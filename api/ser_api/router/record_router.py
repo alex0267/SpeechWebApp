@@ -1,3 +1,6 @@
+import requests
+import os
+
 from fastapi import APIRouter, HTTPException, Depends, UploadFile
 from typing import List
 from sqlalchemy.orm import Session
@@ -50,12 +53,23 @@ async def get_all_records(db: Session = Depends(get_db)):
 
 
 @router.delete("/delete_record/{uuid}", tags=["record"])
-async def delete_record(uuid: str, db: Session = Depends(get_db)):
+async def delete_record(uuid: str, captcha_response: str, db: Session = Depends(get_db)):
     """
     Delete record route
     :param uuid: uuid associate to a record
     :param db: database session
     """
+    url = "https://www.google.com/recaptcha/api/siteverify"
+
+    # see for localhost recaptcha key:
+    # https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
+    localhost_secret = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+    recaptcha_secret = os.getenv("RECAPTCHA_SECRET", localhost_secret)
+    captcha = requests.post(url, {"secret": recaptcha_secret, "response": captcha_response}).json()['success']
+
+    if not captcha:
+        raise HTTPException(status_code=405, detail="Captcha failed")
+
     is_deleted = record_controller.delete_record(db, uuid)
     if is_deleted is None:
         logger.error("Fail to delete record {}, record doesn't exist".format(uuid))

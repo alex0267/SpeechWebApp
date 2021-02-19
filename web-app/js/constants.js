@@ -1,4 +1,4 @@
-let isDev = window.location.hostname == "localhost";
+let isDev = window.location.hostname == "localhost" || window.location.hostname == "127.0.0.1";
 
 let apiHost = "";
 if (isDev) {
@@ -7,4 +7,4 @@ if (isDev) {
     apiHost = `${window.location.protocol}//${window.location.hostname}`;
 }
 
-export {apiHost};
+export {apiHost, isDev};

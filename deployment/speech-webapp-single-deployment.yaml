@@ -35,6 +35,12 @@ spec:
           - name: POSTGRES_USER
             value: "postgres"
 
+          - name: RECAPTCHA
+            valueFrom:
+              secretKeyRef:
+                name: recaptcha
+                key: secret_key
+
           - name: CREDENTIALS_PRIVATE_KEY
             valueFrom:
               secretKeyRef:
