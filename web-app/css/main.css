@@ -133,11 +133,15 @@ a {
   @apply sticky left-0 w-full border-t border-gray-300 text-gray-300 md:hidden
 }
 
-.logos, .title {
+.title {
   @apply flex flex-col md:flex-row items-center justify-center mt-6
 }
 
-.logos > a > img {
+.logos {
+  @apply flex flex-col md:flex-row lg:flex-row items-center justify-center mt-6
+}
+
+.logos > a, .logo > a > img {
   @apply w-2/3 md:w-1/5 lg:w-56
 }
 
