@@ -3,6 +3,7 @@ from pathlib import Path
 
 CONFIG_ENV = os.getenv("CONFIG","dev")
 
+
 class Config:
     VERSION = "v0.1"
     HOST = "0.0.0.0"
@@ -15,6 +16,10 @@ class Config:
     POSTGRES_HOST = os.getenv("POSTGRES_HOST", "localhost")
     POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
     PROJECT_ID = "wewyse-centralesupelec-ftv"
+
+    # default value is localhost recaptcha's site key:
+    # https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
+    RECAPTCHA_SECRET = os.getenv("RECAPTCHA_SECRET",  "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe")
 
     @classmethod
     def db_url_string(cls):
