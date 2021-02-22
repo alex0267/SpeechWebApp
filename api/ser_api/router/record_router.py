@@ -5,11 +5,13 @@ from fastapi import APIRouter, HTTPException, Depends, UploadFile
 from typing import List
 from sqlalchemy.orm import Session
 from fastapi import File
+from starlette.requests import Request
 from ser_api.schema import record_schema
 from ser_api.controller import record_controller, deleted_controller
 from ser_api.database.db_init import get_db
 from ser_api.utils.logging import logger
 from ser_api.utils.config import config, CONFIG_ENV
+from ser_api.utils.rate_limit import limiter
 
 router = APIRouter()
 RECAPTCHA_SECRET = config[CONFIG_ENV].RECAPTCHA_SECRET
@@ -41,6 +43,7 @@ async def create_record(
 
 
 @router.get("/get_record/{uuid}", response_model=record_schema.Record, tags=["record"])
+#@limiter.limit("5/minute")
 async def get_record(uuid: str, db: Session = Depends(get_db)):
     """
     Get single record route
