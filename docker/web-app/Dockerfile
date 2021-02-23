@@ -1,7 +1,7 @@
 FROM node:15.5.0-alpine3.12 AS base
 WORKDIR /app
-RUN mkdir -p /node_modules
 COPY web-app .
+RUN rm -rf node_modules
 RUN npm install
 RUN npm run build-css
 RUN npm run build-js
