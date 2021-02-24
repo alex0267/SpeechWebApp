@@ -87,7 +87,7 @@ class MyRecorder extends Recorder {
         if (this.props.uuid)
             return (
                 <p>
-                  Vous pouvez <a href="/delete-recording.html">supprimer</a> cet enregistrement avec cet identifiant: {this.props.uuid}
+                  Vous pouvez <a href="/delete-recording.html">supprimer</a> cet enregistrement avec cet identifiant : {this.props.uuid}
                 </p>
             );
 
@@ -236,7 +236,7 @@ class VoiceRecorder extends React.Component {
         return (
             <div>
               <div className="flex flex-col items-center">
-                <p className="p-2 mx-2 mt-8">Phrase à prononcer selon l'émotion sélectionnée: </p>
+                <p className="p-2 mx-2 mt-8">Phrase à prononcer selon l'émotion sélectionnée : </p>
                 <h3 className="p-2 mx-2 mt-2">
                   <span>
                       {this.state.sentence_info.sentence}

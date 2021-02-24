@@ -7,6 +7,7 @@ RUN npm run build-css
 RUN npm run build-js
 COPY web-app/css/fonts static/fonts
 COPY web-app/img/*.png static/img/
+COPY web-app/favicon.ico static/favicon.ico
 
 FROM python:3.9-slim AS build
 WORKDIR /app

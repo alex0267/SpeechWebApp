@@ -1,0 +1,26 @@
+#cloudbuilddev.yaml
+steps:
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: /bin/bash
+    args:
+      - -c 
+      - |
+        echo -e "POSTGRES_HOST_DEV="$(gcloud secrets versions access latest --secret=POSTGRES_HOST_DEV --format='get(payload.data)' | tr '_-' '/+' | base64 -d) > /workspace/variables.env &&
+        echo -e "POSTGRES_DB_DEV="$(gcloud secrets versions access latest --secret=POSTGRES_DB_DEV --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
+        echo -e "POSTGRES_PORT="$(gcloud secrets versions access latest --secret=POSTGRES_PORT --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
+        echo -e "POSTGRES_USER_DEV="$(gcloud secrets versions access latest --secret=POSTGRES_USER_DEV --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
+        echo -e "POSTGRES_PASSWORD_DEV="$(gcloud secrets versions access latest --secret=POSTGRES_PASSWORD_DEV --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
+        echo -e "CREDENTIALS_SECRET_KEY="$(gcloud secrets versions access latest --secret=CREDENTIALS_SECRET_KEY --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
+        echo -e "CREDENTIALS_SECRET_KEY_ID="$(gcloud secrets versions access latest --secret=CREDENTIALS_SECRET_KEY_ID --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env &&
+        echo -e "CREDENTIALS_CLIENT_ID="$(gcloud secrets versions access latest --secret=CREDENTIALS_CLIENT_ID --format='get(payload.data)' | tr '_-' '/+' | base64 -d) >> /workspace/variables.env
+  - name: 'gcr.io/$PROJECT_ID/docker-compose'
+    args: ["-f", "./docker/docker-compose.yml", "-f", "./docker/dev.yml", "--env-file", "/workspace/variables.env", 'build']
+    dir: '/workspace'
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['tag', 'speech-emotion-webapp/api:latest', 'gcr.io/$PROJECT_ID/speech-web-app-dev/api:$COMMIT_SHA']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['tag', 'speech-emotion-webapp/frontend:latest', 'gcr.io/$PROJECT_ID/speech-web-app-dev/frontend:$COMMIT_SHA']
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/speech-web-app-dev/api:$COMMIT_SHA"]
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/speech-web-app-dev/frontend:$COMMIT_SHA"]
