@@ -9,13 +9,27 @@ from ser_api.schema import record_schema
 from ser_api.controller import record_controller, deleted_controller
 from ser_api.database.db_init import get_db
 from ser_api.utils.logging import logger
-
+from ser_api.utils.config import config, CONFIG_ENV
 
 router = APIRouter()
+RECAPTCHA_SECRET = config[CONFIG_ENV].RECAPTCHA_SECRET
+
+
+def validate_captcha(captcha_response):
+    url = "https://www.google.com/recaptcha/api/siteverify"
+    captcha = requests.post(url, {"secret": RECAPTCHA_SECRET, "response": captcha_response}).json()['success']
+
+    if not captcha:
+        raise HTTPException(status_code=405, detail="Captcha failed")
 
 
 @router.post("/create_record/{emotion}", response_model=record_schema.Record, tags=["record"])
-async def create_record(emotion: str, sentence_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
+async def create_record(
+        emotion: str,
+        sentence_id: int,
+        file: UploadFile = File(...),
+        db: Session = Depends(get_db),
+        ):
     """
     Create record route
     :param emotion: emotion name
@@ -59,16 +73,7 @@ async def delete_record(uuid: str, captcha_response: str, db: Session = Depends(
     :param uuid: uuid associate to a record
     :param db: database session
     """
-    url = "https://www.google.com/recaptcha/api/siteverify"
-
-    # see for localhost recaptcha key:
-    # https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
-    localhost_secret = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
-    recaptcha_secret = os.getenv("RECAPTCHA_SECRET", localhost_secret)
-    captcha = requests.post(url, {"secret": recaptcha_secret, "response": captcha_response}).json()['success']
-
-    if not captcha:
-        raise HTTPException(status_code=405, detail="Captcha failed")
+    validate_captcha(captcha_response)
 
     is_deleted = record_controller.delete_record(db, uuid)
     if is_deleted is None:

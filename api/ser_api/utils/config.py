@@ -3,6 +3,7 @@ from pathlib import Path
 
 CONFIG_ENV = os.getenv("CONFIG","dev")
 
+
 class Config:
     VERSION = "v0.1"
     HOST = "0.0.0.0"
@@ -16,6 +17,10 @@ class Config:
     POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
     PROJECT_ID = "wewyse-centralesupelec-ftv"
 
+    # default value is localhost recaptcha's site key:
+    # https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
+    RECAPTCHA_SECRET = os.getenv("RECAPTCHA_SECRET",  "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe")
+
     @classmethod
     def db_url_string(cls):
         return f"postgresql+psycopg2://{cls.POSTGRES_USER}:{cls.POSTGRES_PASSWORD}@{cls.POSTGRES_HOST}:{cls.POSTGRES_PORT}/{cls.POSTGRES_DB}"
@@ -24,16 +29,21 @@ class Config:
 class DevConfig(Config):
     CONFIG_ENV = "dev"
     BUCKET_NAME = "swa-dev-bucket"
+    DEFAULT_MINUTELY_RATE_LIMIT = "6000/minute"
+    DEFAULT_HOURLY_RATE_LIMIT = "6000/hour"
 
 
 class TestConfig(Config):
     CONFIG_ENV = "test"
     BUCKET_NAME = "swa-test-bucket"
+    DEFAULT_MINUTELY_RATE_LIMIT = "6/minute"
+    DEFAULT_HOURLY_RATE_LIMIT = "60/hour"
 
 
 class ProdConfig(Config):
     CONFIG_ENV = "prod"
-    BUCKET_NAME = "swa-prod-bucket"
+    DEFAULT_MINUTELY_RATE_LIMIT = "6/minute"
+    DEFAULT_HOURLY_RATE_LIMIT = "60/hour"
 
 
 config = dict(dev=DevConfig, test=TestConfig, prod=ProdConfig)
