@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: speech-webapp
+  name: speech-webapp-test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: speech-webapp
+      app: speech-webapp-test
   template:
     metadata:
       labels:
-        app: speech-webapp
+        app: speech-webapp-test
     spec:
       containers:
       - name: backend
-        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/api:VERSION_TAG
+        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app-dev/api:0f303d30704dd4ccc06bb123cc43ba320265c92b
         workingDir: /home/app
         ports:
         - containerPort: 8081
@@ -27,20 +27,18 @@ spec:
           periodSeconds: 3
         env:
           - name: POSTGRES_HOST
-            value: "10.69.192.3"
+            value: "10.69.192.6"
           - name: POSTGRES_DB
             value: "test_db"
           - name: POSTGRES_PORT
             value: "5432"
           - name: POSTGRES_USER
             value: "postgres"
-
           - name: RECAPTCHA
             valueFrom:
               secretKeyRef:
                 name: recaptcha
                 key: secret_key
-
           - name: CREDENTIALS_PRIVATE_KEY
             valueFrom:
               secretKeyRef:
@@ -63,7 +61,9 @@ spec:
                 key: db_pass
           - name: PYTHONPATH
             value: '/home/app'
+          - name: CONFIG
+            value: 'test'
       - name: frontend
-        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app/frontend:VERSION_TAG
+        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app-dev/frontend:0f303d30704dd4ccc06bb123cc43ba320265c92b
         ports:
         - containerPort: 3000
