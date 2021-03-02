@@ -15,6 +15,7 @@ import { apiHost } from './constants.js';
 
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import * as Bowser from "bowser";
 
 
 const Timer = ({time, show}) => {
@@ -212,6 +213,22 @@ class VoiceRecorder extends React.Component {
         };
     }
     render() {
+        const browser = Bowser.getParser(window.navigator.userAgent);
+        const BrowserName = browser.getBrowserName();
+        const OSName = browser.getOSName();
+        const OSVersion = parseFloat(browser.getOSVersion());
+        console.log (OSVersion);
+
+        let isOldNotValidiOS = false;
+        if ((OSName === "iOS") && (Math.round(OSVersion * 10) < 143) && (BrowserName === "Safari")) {
+            isOldNotValidiOS = true;
+        }
+
+        let isRecentiOS = false;
+        if ((OSName === "iOS") && (Math.round(OSVersion * 10) >= 143) && (BrowserName === "Safari")) {
+            isRecentiOS = true;
+        }
+
         const emotion = this.props.emotions[0];
         const emotiontab =this.props.emotions.map((emotion, i) =>
             <Tab key={i}>
@@ -232,34 +249,40 @@ class VoiceRecorder extends React.Component {
                 />
             </TabPanel>                  
         );
-
-        return (
-            <div>
-              <div className="flex flex-col items-center">
-                <p className="p-2 mx-2 mt-8">Phrase à prononcer selon l'émotion sélectionnée : </p>
-                <h3 className="p-2 mx-2 mt-2">
-                  <span>
-                      {this.state.sentence_info.sentence}
-                  </span>
-                </h3>
-                <Button onClick={() => this.updateSentence()} title='Autre phrase' extraClass="w-3/12 mb-8" />
-              </div>
-              <Tabs>
-                <div className="tab-wrapper">
-                <TabList>
-                    {emotiontab}
-                </TabList>
+        if (isOldNotValidiOS) 
+            return (
+                <div className="flex flex-col items-center">
+                    <div className="p-2 mx-2 mt-8 bg-red-200 relative text-red-600 py-3 px-3 rounded-lg">Navigateur non compatible, veuillez mettre à jour votre iOS (version > 14.3).</div> 
+                    <div className="p-2 mx-2 mt-8">Dans la mesure du possible, préférez utiliser Firefox ou Google Chrome comme explorateurs pour ce site.</div>
                 </div>
-                <div className="scroll-arrows">
-                  <div className="float-left">&lt;</div>
-                  <div className="float-right">&gt;</div>
+            );
+        else
+            return (
+                <div>
+                <div className="flex flex-col items-center">
+                {isRecentiOS ? <div class="p-2 mx-2 mt-8 bg-yellow-200 relative text-yellow-600 py-3 px-3 rounded-lg">&#x26A0; Version de navigateur qui peut présenter des problèmes d'affichage.</div> : <div></div> } 
+                    <p className="p-2 mx-2 mt-8">Phrase à prononcer selon l'émotion sélectionnée : </p>
+                    <h3 className="p-2 mx-2 mt-2">
+                    <span>
+                        {this.state.sentence_info.sentence}
+                    </span>
+                    </h3>
+                    <Button onClick={() => this.updateSentence()} title='Autre phrase' extraClass="w-3/12 mb-8" />
                 </div>
-                {recorders}
-              </Tabs>
-
-              
-            </div>
-        );
+                <Tabs>
+                    <div className="tab-wrapper">
+                    <TabList>
+                        {emotiontab}
+                    </TabList>
+                    </div>
+                    <div className="scroll-arrows">
+                    <div className="float-left">&lt;</div>
+                    <div className="float-right">&gt;</div>
+                    </div>
+                    {recorders}
+                </Tabs>                
+                </div>
+            );
     }
 }
 

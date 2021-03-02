@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app-dev/api:0f303d30704dd4ccc06bb123cc43ba320265c92b
+        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app-dev/api:8c03ba02fdb39fc1b1415681a577bb315ca9d15a
         workingDir: /home/app
         ports:
         - containerPort: 8081
@@ -64,6 +64,6 @@ spec:
           - name: CONFIG
             value: 'test'
       - name: frontend
-        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app-dev/frontend:0f303d30704dd4ccc06bb123cc43ba320265c92b
+        image: gcr.io/wewyse-centralesupelec-ftv/speech-web-app-dev/frontend:8c03ba02fdb39fc1b1415681a577bb315ca9d15a
         ports:
         - containerPort: 3000

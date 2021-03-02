@@ -149,4 +149,17 @@ a {
   @apply my-6
 }
 
+.tooltip {
+  @apply invisible absolute;
+}
+
+.has-tooltip {
+  @apply text-5xl lg:text-3xl;
+}
+
+.has-tooltip:hover .tooltip,
+.has-tooltip:focus .tooltip {
+  @apply visible z-50 left-0 lg:left-auto;
+}
+
 @tailwind utilities;

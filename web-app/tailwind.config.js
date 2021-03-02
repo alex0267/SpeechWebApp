@@ -5,10 +5,10 @@ module.exports = {
     purge: [],
     theme: {
       screens: {
-        'sm': '400px',
+        'sm': '450px',
         // => @media (min-width: 400px) { ... }
   
-        'md': '400px',
+        'md': '450px',
         // => @media (min-width: 400px) { ... }
   
         'lg': '1024px',
