@@ -8,7 +8,6 @@ from ser_api.schema import sentence_schema
 from ser_api.controller import sentence_controller
 from ser_api.database.db_init import get_db
 from ser_api.utils.logging import logger
-from ser_api.utils.rate_limit import limiter
 
 
 router = APIRouter()
@@ -68,8 +67,6 @@ async def delete_record(id: str, db: Session = Depends(get_db)):
 
 
 @router.get("/get_random_sentence/", tags=["sentence"])
-@limiter.limit("60/minute")
-@limiter.limit("600/hour")
 async def get_random_sentence(request: Request, db: Session = Depends(get_db)):
     """
     Get random sentence route

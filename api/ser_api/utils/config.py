@@ -29,21 +29,15 @@ class Config:
 class DevConfig(Config):
     CONFIG_ENV = "dev"
     BUCKET_NAME = "swa-dev-bucket"
-    DEFAULT_MINUTELY_RATE_LIMIT = "6000/minute"
-    DEFAULT_HOURLY_RATE_LIMIT = "6000/hour"
 
 
 class TestConfig(Config):
     CONFIG_ENV = "test"
     BUCKET_NAME = "swa-test-bucket"
-    DEFAULT_MINUTELY_RATE_LIMIT = "6/minute"
-    DEFAULT_HOURLY_RATE_LIMIT = "60/hour"
 
 
 class ProdConfig(Config):
     CONFIG_ENV = "prod"
-    DEFAULT_MINUTELY_RATE_LIMIT = "6/minute"
-    DEFAULT_HOURLY_RATE_LIMIT = "60/hour"
 
 
 config = dict(dev=DevConfig, test=TestConfig, prod=ProdConfig)

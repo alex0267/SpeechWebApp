@@ -5,10 +5,6 @@ from ser_api.database.db_init import engine, Base
 from ser_api.router import record_router, deleted_router, sentence_router
 from ser_api.utils.logging import logger, setup_uvicorn_log_config
 from ser_api.utils.config import config, CONFIG_ENV
-from ser_api.utils.rate_limit import limiter
-from slowapi import _rate_limit_exceeded_handler
-from slowapi.errors import RateLimitExceeded
-from slowapi.middleware import SlowAPIMiddleware
 
 API_VERSION = config[CONFIG_ENV].VERSION
 
@@ -19,9 +15,6 @@ else:
     app = FastAPI(title="SpeechApi", version=API_VERSION, 
                   docs_url=None, redoc_url=None)
 
-app.state.limiter = limiter
-app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
-app.add_middleware(SlowAPIMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
