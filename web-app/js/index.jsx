@@ -272,12 +272,12 @@ class VoiceRecorder extends React.Component {
                     handleRest={() => this.handleRest(emotion)()}
                     uuid={this.state[emotion].uuid}
                 />
-            </TabPanel>                  
+            </TabPanel>
         );
-        if (isOldNotValidiOS) 
+        if (isOldNotValidiOS)
             return (
                 <div className="flex flex-col items-center">
-                    <div className="p-2 mx-2 mt-8 bg-red-200 relative text-red-600 py-3 px-3 rounded-lg">Navigateur non compatible, veuillez mettre à jour votre iOS (version > 14.3).</div> 
+                    <div className="p-2 mx-2 mt-8 bg-red-200 relative text-red-600 py-3 px-3 rounded-lg">Navigateur non compatible, veuillez mettre à jour votre iOS (version > 14.3).</div>
                     <div className="p-2 mx-2 mt-8">Dans la mesure du possible, préférez utiliser Firefox ou Google Chrome comme explorateurs pour ce site.</div>
                 </div>
             );
@@ -285,7 +285,7 @@ class VoiceRecorder extends React.Component {
             return (
                 <div>
                 <div className="flex flex-col items-center">
-                {isRecentiOS ? <div class="p-2 mx-2 mt-8 bg-yellow-200 relative text-yellow-600 py-3 px-3 rounded-lg">&#x26A0; Version de navigateur qui peut présenter des problèmes d'affichage.</div> : <div></div> } 
+                {isRecentiOS ? <div class="p-2 mx-2 mt-8 bg-yellow-200 relative text-yellow-600 py-3 px-3 rounded-lg">&#x26A0; Version de navigateur qui peut présenter des problèmes d'affichage.</div> : <div></div> }
                     <p className="p-2 mx-2 mt-8">Phrase à prononcer selon l'émotion sélectionnée : </p>
                     <h3 className="p-2 mx-2 mt-2">
                     <span>
@@ -305,7 +305,7 @@ class VoiceRecorder extends React.Component {
                     <div className="float-right">&gt;</div>
                     </div>
                     {recorders}
-                </Tabs>                
+                </Tabs>
                 </div>
             );
     }
