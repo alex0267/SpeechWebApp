@@ -1,6 +1,7 @@
 from sqlalchemy.exc import IntegrityError
 from ser_api.model.sentence_model import Sentence
 from ser_api.utils.config import Config
+from ser_api.utils.auth.auth_handler import signJWT,decodeJWT
 
 API_VERSION = Config.VERSION
 
@@ -15,7 +16,8 @@ def test_create_sentence(helpers):
     client_session.close()
     params = {'sentence': "My name is Slim Shady 1"}
 
-    response = client_app.post(f"/api/{API_VERSION}/create_sentence/", params=params)
+    response = client_app.post(f"/api/{API_VERSION}/create_sentence/", params=params,
+                               headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}'))
 
     data_test = response.json()
 
@@ -24,12 +26,14 @@ def test_create_sentence(helpers):
     assert response.status_code == 200
 
     # Check sentence has been add to test db
-    sentence_test = client_app.get(f"/api/{API_VERSION}/get_sentence/{data_test['id']}")
+    sentence_test = client_app.get(f"/api/{API_VERSION}/get_sentence/{data_test['id']}",
+                                   headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}'))
     assert sentence_test.json()["id"] == data_test["id"]
 
     # Check uniqueness constraint
     try:
-        response = client_app.post(f"/api/{API_VERSION}/create_sentence/", params=params)
+        response = client_app.post(f"/api/{API_VERSION}/create_sentence/", params=params,
+                                   headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}'))
         assert 0  # fail test
     except IntegrityError:
         pass
@@ -38,7 +42,8 @@ def test_create_sentence(helpers):
 def test_get_sentence_not_exists(helpers):
     """ Test route get single sentence - based on its uuid """
     client_app, _ = helpers.client_setup()
-    response = client_app.get(f"/api/{API_VERSION}/get_sentence/100")
+    response = client_app.get(f"/api/{API_VERSION}/get_sentence/100",
+                              headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}'))
     assert response.status_code == 404
 
 
@@ -50,8 +55,10 @@ def test_get_all_sentences(helpers):
     client_app.post(
         "/create_sentence/",
         params=params,
+        headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}')
     )
-    response = client_app.get(f"/api/{API_VERSION}/get_all_sentences")
+    response = client_app.get(f"/api/{API_VERSION}/get_all_sentences",
+                              headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}'))
     response_data = response.json()
 
     assert response.status_code == 200
@@ -66,23 +73,27 @@ def test_delete_sentence(helpers):
     sentence_test = client_app.post(
         f"/api/{API_VERSION}/create_sentence/",
         params=params,
+        headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}')
     )
     sentence_test_json = sentence_test.json()
     sentence_test_id = sentence_test_json["id"]
 
     # Delete sentence and check returned status code
-    delete_response = client_app.delete(f"/api/{API_VERSION}/delete_sentence/{sentence_test_id}")
+    delete_response = client_app.delete(f"/api/{API_VERSION}/delete_sentence/{sentence_test_id}",
+                                        headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}'))
     assert delete_response.status_code == 200
 
     # Check sentence has been delete from sentence table
-    check_response = client_app.get("/get_sentence/{}".format(sentence_test_id))
+    check_response = client_app.get("/get_sentence/{}".format(sentence_test_id),
+                                    headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}'))
     assert check_response.status_code == 404
 
 
 def test_delete_sentence_not_exists(helpers):
     """ Test delete sentence request with fake uuid """
     client_app, _ = helpers.client_setup()
-    delete_response = client_app.delete(f"/api/{API_VERSION}/detele_sentence/100")
+    delete_response = client_app.delete(f"/api/{API_VERSION}/detele_sentence/100",
+                                        headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}'))
 
     # Delete request should return 404 because sentence not exists
     assert delete_response.status_code == 404

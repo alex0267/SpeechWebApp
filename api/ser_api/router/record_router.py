@@ -10,6 +10,7 @@ from ser_api.controller import record_controller, deleted_controller
 from ser_api.database.db_init import get_db
 from ser_api.utils.logging import logger
 from ser_api.utils.config import config, CONFIG_ENV
+from ser_api.utils.auth.auth_bearer import JWTBearer
 
 router = APIRouter()
 RECAPTCHA_SECRET = config[CONFIG_ENV].RECAPTCHA_SECRET
@@ -39,7 +40,7 @@ async def create_record(
     return record_controller.add_record(db, emotion, sentence_id, file)
 
 
-@router.get("/get_record/{uuid}", response_model=record_schema.Record, tags=["record"])
+@router.get("/get_record/{uuid}", dependencies=[Depends(JWTBearer())], response_model=record_schema.Record, tags=["record"])
 async def get_record(uuid: str, db: Session = Depends(get_db)):
     """
     Get single record route
@@ -49,11 +50,11 @@ async def get_record(uuid: str, db: Session = Depends(get_db)):
     db_record = record_controller.get_record(db, uuid)
     if db_record is None:
         logger.error("Cannot find record {}  found in database".format(uuid))
-        raise HTTPException(status_code=404, detail="record not found")
+        raise HTTPException(status_code=404, detail="Aucun enregistrement trouvé")
     return db_record
 
 
-@router.get("/get_all_records", response_model=List[record_schema.Record], tags=["record"])
+@router.get("/get_all_records", dependencies=[Depends(JWTBearer())], response_model=List[record_schema.Record], tags=["record"])
 async def get_all_records(db: Session = Depends(get_db)):
     """
     Get all records route
@@ -78,7 +79,7 @@ async def delete_record(uuid: str, captcha_response: str, db: Session = Depends(
     is_deleted = record_controller.delete_record(db, uuid)
     if is_deleted is None:
         logger.error("Fail to delete record {}, record doesn't exist".format(uuid))
-        raise HTTPException(status_code=404, detail="Record {} doesn't exists in database".format(uuid))
+        raise HTTPException(status_code=404, detail="L'enregistrement {} n'existe pas dans la base.".format(uuid))
     else:
         deleted_controller.add_deleted_record(db, uuid)
         logger.info("Successfully remove record {}, save deletion track in deleted-records table".format(uuid))

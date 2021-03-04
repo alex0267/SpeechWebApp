@@ -1,14 +1,13 @@
 from ser_api.utils.config import Config
 from ser_api.model.sentence_model import Sentence
+from ser_api.utils.auth.auth_handler import signJWT,decodeJWT
 API_VERSION = Config.VERSION
-
-
 
 def test_get_deleted_not_exists(helpers):
     """ Test get deleted record that not exists"""
     client_app, _ = helpers.client_setup()
-    response = client_app.get(f"/api/{API_VERSION}/get_deleted/a-fake-uuid")
-
+    response = client_app.get(f"/api/{API_VERSION}/get_deleted/a-fake-uuid",
+                              headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}'))
     assert response.status_code == 404
 
 
@@ -24,6 +23,7 @@ def test_get_deleted(test_file_obj,helpers):
         f"/api/{API_VERSION}/create_record/happiness",
         files=test_file_obj,
         params=params,
+        headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}')
     )
     record_test_json = record_test.json()
     record_test_uuid = record_test_json["uuid"]
@@ -34,7 +34,7 @@ def test_get_deleted(test_file_obj,helpers):
     client_app.delete(f"/api/{API_VERSION}/delete_record/{record_test_uuid}?captcha_response={captcha_response}")
 
     # Check deleted record has been added to deleted table
-    response = client_app.get(f"/api/{API_VERSION}/get_deleted/{record_test_uuid}")
+    response = client_app.get(f"/api/{API_VERSION}/get_deleted/{record_test_uuid}",headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}'))
 
     assert response.status_code == 200
 
@@ -42,5 +42,6 @@ def test_get_deleted(test_file_obj,helpers):
 def test_get_all_deleted(helpers):
     """Test get all deleted records"""
     client_app, _ = helpers.client_setup()
-    response = client_app.get(f"/api/{API_VERSION}/get_all_deleted/")
+    response = client_app.get(f"/api/{API_VERSION}/get_all_deleted/",
+                              headers=dict(Authorization=f'Bearer {signJWT()["access_token"]}'))
     assert response.status_code == 200
