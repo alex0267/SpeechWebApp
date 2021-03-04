@@ -43,10 +43,10 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
         working-directory: ./api
       - name: Build the docker-compose stack
-        run: docker-compose -f ./docker/docker-compose.yml build
+        run: docker-compose -f ./docker/docker-compose.yml -f ./docker/test.yml build
       - name: Sleep
         uses: jakejarvis/wait-action@master
         with:
           time: '60s'
       - name: Test with pytest
-        run: docker-compose -f ./docker/docker-compose.yml run backend pytest
+        run: docker-compose -f ./docker/docker-compose.yml -f ./docker/test.yml run backend pytest

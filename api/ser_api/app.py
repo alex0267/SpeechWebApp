@@ -15,6 +15,7 @@ else:
     app = FastAPI(title="SpeechApi", version=API_VERSION, 
                   docs_url=None, redoc_url=None)
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allow all origins

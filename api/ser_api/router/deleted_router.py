@@ -4,11 +4,13 @@ from sqlalchemy.orm import Session
 from ser_api.schema import deleted_schema
 from ser_api.controller import deleted_controller
 from ser_api.database.db_init import get_db
+from ser_api.utils.auth.auth_bearer import JWTBearer
 
 router = APIRouter()
 
 
-@router.get("/get_deleted/{uuid}", response_model=deleted_schema.Deleted, tags=["deleted"])
+@router.get("/get_deleted/{uuid}", dependencies=[Depends(JWTBearer())], response_model=deleted_schema.Deleted,
+            tags=["deleted"])
 async def get_deleted_record(uuid: str, db: Session = Depends(get_db)):
     """
     Get deleted record from deleted table
@@ -22,7 +24,7 @@ async def get_deleted_record(uuid: str, db: Session = Depends(get_db)):
     return db_record
 
 
-@router.get("/get_all_deleted", response_model=List[deleted_schema.Deleted], tags=["deleted"])
+@router.get("/get_all_deleted", dependencies=[Depends(JWTBearer())], response_model=List[deleted_schema.Deleted], tags=["deleted"])
 async def get_all_deleted_records(db: Session = Depends(get_db)):
     """
     Get all deleted records from deleted table

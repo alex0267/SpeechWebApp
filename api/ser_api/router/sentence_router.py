@@ -2,16 +2,17 @@ from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 from sqlalchemy.orm import Session
 from random import randint
+from starlette.requests import Request
+from starlette.responses import Response
 from ser_api.schema import sentence_schema
 from ser_api.controller import sentence_controller
 from ser_api.database.db_init import get_db
 from ser_api.utils.logging import logger
-
+from ser_api.utils.auth.auth_bearer import JWTBearer
 
 router = APIRouter()
 
-
-@router.post("/create_sentence/", response_model=sentence_schema.Sentence, tags=["sentence"])
+@router.post("/create_sentence/", dependencies=[Depends(JWTBearer())], response_model=sentence_schema.Sentence, tags=["sentence"])
 async def create_sentence(sentence: str, db: Session = Depends(get_db)):
     """
     Create sentence route
@@ -21,7 +22,7 @@ async def create_sentence(sentence: str, db: Session = Depends(get_db)):
     return sentence_controller.add_sentence(db, sentence)
 
 
-@router.get("/get_sentence/{id}", response_model=sentence_schema.Sentence, tags=["sentence"])
+@router.get("/get_sentence/{id}", dependencies=[Depends(JWTBearer())],  response_model=sentence_schema.Sentence, tags=["sentence"])
 async def get_sentence(id: int, db: Session = Depends(get_db)):
     """
     Get single sentence route
@@ -35,7 +36,7 @@ async def get_sentence(id: int, db: Session = Depends(get_db)):
     return db_sentence
 
 
-@router.get("/get_all_sentences", response_model=List[sentence_schema.Sentence], tags=["sentence"])
+@router.get("/get_all_sentences", dependencies=[Depends(JWTBearer())],  response_model=List[sentence_schema.Sentence], tags=["sentence"])
 async def get_all_records(db: Session = Depends(get_db)):
     """
     Get all records route
@@ -48,7 +49,7 @@ async def get_all_records(db: Session = Depends(get_db)):
     return all_db_sentences
 
 
-@router.delete("/delete_sentence/{id}", tags=["sentence"])
+@router.delete("/delete_sentence/{id}", dependencies=[Depends(JWTBearer())],  tags=["sentence"])
 async def delete_record(id: str, db: Session = Depends(get_db)):
     """
     Delete sentence route
@@ -65,7 +66,7 @@ async def delete_record(id: str, db: Session = Depends(get_db)):
 
 
 @router.get("/get_random_sentence/", tags=["sentence"])
-async def get_random_sentence(db: Session = Depends(get_db)):
+async def get_random_sentence(request: Request, db: Session = Depends(get_db)):
     """
     Get random sentence route
     :param db: database session

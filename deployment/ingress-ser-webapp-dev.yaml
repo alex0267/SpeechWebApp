@@ -8,7 +8,30 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
-  - http:
+  - host: www.speech-emotion-recognition.app
+    http:
+      paths:
+        - path: /*
+          backend:
+            serviceName: service-ser-webapp-dev
+            servicePort: 3000
+        - path: /api/*
+          backend:
+            serviceName: service-ser-webapp-dev
+            servicePort: 8081
+  - host: dev.speech-emotion-recognition.app
+    http:
+      paths:
+        - path: /*
+          backend:
+            serviceName: service-ser-webapp-test
+            servicePort: 3000
+        - path: /api/*
+          backend:
+            serviceName: service-ser-webapp-test
+            servicePort: 8081
+  - host: speech-emotion-recognition.app
+    http:
       paths:
         - path: /*
           backend:

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 const Button = ({onClick, title, extraClass=''}) =>
-      <button onClick={onClick} className={"button w-1/2 flex items-center justify-center rounded-md bg-black text-white p-2 m-2 ".concat(extraClass)}>
+      <button onClick={onClick} className={"button w-1/2 flex items-center justify-center rounded-full bg-black text-white px-6 py-2.5 m-2 ".concat(extraClass)}>
       {title}
 </button>;
 
