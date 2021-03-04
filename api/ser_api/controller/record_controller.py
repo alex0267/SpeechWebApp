@@ -38,8 +38,9 @@ def add_record(db: Session, emotion: str, sentence_id: int, file: UploadFile):
 
     #upload file
     import gcsfs
+    ext = file.content_type.split('/')[1]
     my_uuid = str(uuid.uuid1())
-    my_url = f"{config[CONFIG_ENV].BUCKET_NAME}/{my_uuid}{Path(file.filename).suffix}"
+    my_url = f"{config[CONFIG_ENV].BUCKET_NAME}/{my_uuid}.{ext}"
     my_complete_url = f"gs://{my_url}"
     fs = gcsfs.GCSFileSystem(project=config[CONFIG_ENV].PROJECT_ID,token=config[CONFIG_ENV].GOOGLE_APPLICATION_CREDENTIALS_PATH)
 

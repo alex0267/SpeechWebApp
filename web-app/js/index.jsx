@@ -81,6 +81,32 @@ const RecorderControls = props => {
 }
 
 class MyRecorder extends Recorder {
+    getMimeType() {
+        /*
+          It is important to keep "audio/ogg" before "audio/webm" in the array
+          bellow as FF supports both but Chrome only the later. Hence, if "audio/webm"
+          comes first, then the Mime type for FF will also be "audio/webm", however,
+          it seems that by default, the Mime type used to record on FF is "audio/ogg".
+          So if we want to have the correct Mime type on FF, we need "audio/ogg" to
+          come first.
+        */
+        for (let audioType of ["audio/mp4", "audio/ogg", "audio/webm"]) {
+            if (MediaRecorder.isTypeSupported(audioType))
+                return audioType;
+        }
+    }
+    saveAudio() {
+        const blob = new Blob(this.chunks, { type: this.getMimeType() });
+        const audioURL = window.URL.createObjectURL(blob);
+        const audios = [audioURL];
+        this.setState({ audios, audioBlob: blob });
+        this.props.handleAudioStop({
+            url: audioURL,
+            blob: blob,
+            chunks: this.chunks,
+            duration: this.state.time
+        });
+    }
     render() {
         const { recording, audios, time, medianotFound, pauseRecord } = this.state;
         const { showUIAudio, title, audioURL } = this.props;
