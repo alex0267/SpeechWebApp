@@ -1,19 +1,33 @@
 <html>
     <head>
-        <title>Speech Emotions Recorder</title>
+        <title>Enregistreur d'émotions de paroles</title>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Acquisition de voix parlées selon différentes émotions pour un projet collaboratif entre Wewyse, France TV et Centrale SupElec.">
+        <meta name="og:title" content="Enregistreur d'émotions de paroles">
+        <meta name="og:description" content="Acquisition de voix parlées selon différentes émotions pour un projet collaboratif entre Wewyse, France TV et Centrale SupElec.">
+        <meta name="twitter:title" content="Enregistreur d'émotions de paroles">
+        <meta name="twitter:description" content="Acquisition de voix parlées selon différentes émotions pour un projet collaboratif entre Wewyse, France TV et Centrale SupElec.">
+        <meta name="keywords" content="Reconnaissance d'émotions, Speech emotion recognition" />
+        <meta property="og:type" content="website" /> 
+        <meta name="author" content="Wewyse" />  
+        <meta name="viewport" content="initial-scale=1.0, width=device-width">
         <link rel="stylesheet" href="./static/main.css" />
+        <link rel="icon" href="./static/favicon.ico" />
     </head>
     <body>
-        <div class="title"><h2>Enregistreur d'émotions de paroles</h2><p class="has-tooltip">*<span class='tooltip rounded text-sm md:text-xs shadow-lg p-1 bg-gray-100 text-gray-500 -mt-8'>Ce site est pleinement compatible avec Firefox et Google Chrome. Fonctionne sur Safari (MacOS) en activant le <a href="https://blog.addpipe.com/safari-technology-preview-73-adds-limited-mediastream-recorder-api-support/" target="_blank">MediaRecorder</a>. L'expérience est partielle sur Safari version >14.3 sur mobile (iOS), non fonctionnel sur les versions antérieures.</span></p></div>
-        <div id="root"></div>
-        <script src="./static/index.js"></script>
-        <div class="footer-container">
-            <a href="/delete-recording">Supprimer un de vos enregistrements</a>
-        </div>
-        <div class="logos">
-            <a href="https://wewyse.com/" target="_blank"><img alt="Wewyse logo" src="./static/img/logo-wewyse-footer.png" /></a>
-            <a href="https://www.francetvlab.fr/" target="_blank"><img alt="FranceTV logo" src="./static/img/france_tv_logo_cmjn_france_couleur_noir.png" /></a>
-            <a href="https://www.centralesupelec.fr/" target="_blank"><img alt="Centrale SupElec logo" src="./static/img/logo-centrale-supelec.png" /></a>
+        <div class="container">
+            <div class="title"><h2>Enregistreur d'émotions de paroles</h2><p class="has-tooltip">*<span class='tooltip rounded text-sm md:text-xs shadow-lg p-1 bg-gray-100 text-gray-500 -mt-8'>Ce site est pleinement compatible avec Firefox et Google Chrome (bureau et mobile).<br /><br />Fonctionne sur Safari (MacOS) en activant le <a href="https://blog.addpipe.com/safari-technology-preview-73-adds-limited-mediastream-recorder-api-support/" target="_blank">MediaRecorder</a>.<br /><br />L'expérience est partielle sur Safari version >14.3 pour mobile (iOS), non fonctionnel sur les versions antérieures.</span></p></div>
+            <div id="root"></div>
+            <script src="./static/index.js"></script>
+            <div class="footer-container">
+                <p><a href="/delete-recording">Supprimer un de vos enregistrements</a></p>
+                <p>En collaboration avec : </p>
+                <div class="logos">
+                    <a href="https://wewyse.com/" target="_blank"><img alt="Wewyse logo" src="./static/img/logo-wewyse-footer.png" /></a>
+                    <a href="https://www.francetvlab.fr/" target="_blank"><img alt="FranceTV logo" src="./static/img/france_tv_logo_cmjn_france_couleur_noir.png" /></a>
+                    <a href="https://www.centralesupelec.fr/" target="_blank"><img alt="Centrale SupElec logo" src="./static/img/logo-centrale-supelec.png" /></a>
+                </div>
+            </div>
         </div>
     </body>
 </html>

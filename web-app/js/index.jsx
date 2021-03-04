@@ -243,7 +243,6 @@ class VoiceRecorder extends React.Component {
         const BrowserName = browser.getBrowserName();
         const OSName = browser.getOSName();
         const OSVersion = parseFloat(browser.getOSVersion());
-        console.log (OSVersion);
 
         let isOldNotValidiOS = false;
         if ((OSName === "iOS") && (Math.round(OSVersion * 10) < 143) && (BrowserName === "Safari")) {
