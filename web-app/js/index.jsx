@@ -114,6 +114,7 @@ class MyRecorder extends Recorder {
             chunks: this.chunks,
             duration: this.state.time
         });
+    }
     componentWillReceiveProps(nextProps) {
         if (nextProps.uuid !== this.props.uuid) {
             this.setState({ ...this.state, audios: [], time: {}, seconds: 0 });
