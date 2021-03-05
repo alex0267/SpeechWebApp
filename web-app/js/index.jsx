@@ -106,6 +106,23 @@ class MyRecorder extends Recorder {
             chunks: this.chunks,
             duration: this.state.time
         });
+    handleRest(e) {
+        if (this.state.recording) {
+            // this.stopRecording(e);
+        }
+        this.setState({
+            time: {},
+            seconds: 0,
+            isPaused: false,
+            recording: false,
+            medianotFound: false,
+            audios: [],
+            audioBlob: null
+        }, () => {
+
+            this.props.handleRest(this.state);
+        });
+
     }
     render() {
         const { recording, audios, time, medianotFound, pauseRecord } = this.state;
