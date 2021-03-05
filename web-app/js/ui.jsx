@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 const Button = ({ onClick, title, isHidden = false, extraClass = "" }) => {
-  const hiddenClasses = isHidden ? " pointer-events-none bg-gray-400" : " bg-black";
+  const hiddenClasses = isHidden ? " pointer-events-none bg-gray-400 " : " bg-black ";
   return (
     <button
       onClick={onClick}
