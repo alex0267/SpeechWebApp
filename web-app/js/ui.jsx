@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 const Button = ({ onClick, title, isHidden = false, extraClass = "" }) => {
-  const hiddenClasses = isHidden ? " pointer-events-none opacity-20 " : "";
+  const hiddenClasses = isHidden ? " pointer-events-none bg-gray-400" : " bg-black";
   return (
     <button
       onClick={onClick}
-      className={"button w-1/2 flex items-center justify-center rounded-full bg-black text-white px-6 py-2.5 m-2 "
+      className={"button w-1/2 flex items-center justify-center rounded-full text-white px-6 py-2.5 m-2 "
         .concat(hiddenClasses)
         .concat(extraClass)}
     >
