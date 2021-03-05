@@ -18,6 +18,13 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import * as Bowser from "bowser";
 
 
+const STATUS = {
+    PAUSED: 0,
+    PLAYING: 1,
+    STOPPED: 2,
+};
+
+
 const Timer = ({time, show}) => {
     if (!show)
         return <div />;
@@ -55,6 +62,7 @@ const RecorderControls = props => {
         handleAudioStart,
         handleAudioPause,
     } = props;
+
     if (!recording)
         return (
             <div className="flex items-center justify-center w-20">
@@ -106,6 +114,38 @@ class MyRecorder extends Recorder {
             chunks: this.chunks,
             duration: this.state.time
         });
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.uuid !== this.props.uuid) {
+            this.setState({ ...this.state, audios: [], time: {}, seconds: 0 });
+        }
+    }
+    handleAudioStart(e) {
+        super.handleAudioStart(e);
+        this.props.handleAudioStart();
+    }
+    startRecording(e) {
+        this.setState({
+            ...this.state,
+            seconds: 0,
+            audios: [],
+            audioBlob: null,
+        }, () => {
+            super.startRecording(e);
+            this.props.handleAudioStart();
+        });
+    }
+    handleAudioPause(e) {
+        super.handleAudioPause(e);
+        this.props.handleAudioPause();
+    }
+    resetTimer() {
+        this.setState({ ...this.state, seconds: 0 });
+    }
+
+    stopRecording(e) {
+        super.stopRecording(e);
+        setTimeout(() => this.resetTimer(), 0);
+    }
     handleRest(e) {
         if (this.state.recording) {
             // this.stopRecording(e);
@@ -128,12 +168,13 @@ class MyRecorder extends Recorder {
         const { recording, audios, time, medianotFound, pauseRecord } = this.state;
         const { showUIAudio, title, audioURL } = this.props;
 
-        if (this.props.uuid)
+        if (this.props.uuid) {
             return (
                 <p>
                   Vous pouvez <a href="/delete-recording.html">supprimer</a> cet enregistrement avec cet identifiant : {this.props.uuid}
                 </p>
             );
+        }
 
         if (medianotFound)
             return  (
@@ -153,15 +194,17 @@ class MyRecorder extends Recorder {
                     handleAudioPause={(e) => this.handleAudioPause(e)}
                   />
                   <Timer time={time} show={audioURL === null}/>
-                  <AudioPlayer audios={audios} show={audioURL !== null && showUIAudio} />
-                  <div className="flex flex-row">
-                    <Button
-                      onClick={() => this.props.handleAudioUpload(this.state.audioBlob)}
-                      title="Sauvegarder" />
-                    <Button
-                      onClick={(e) => this.handleRest(e)}
-                      title="Effacer" />
-                  </div>
+                  <AudioPlayer audios={audios} show={audioURL !== null && showUIAudio } />
+                    <div className="flex flex-row">
+                        <Button
+                            isHidden={!this.state.audios.length}
+                            onClick={() => this.props.handleAudioUpload(this.state.audioBlob)}
+                            title="Sauvegarder" />
+                        <Button
+                          isHidden={!this.state.audios.length}
+                          onClick={(e) => this.handleRest(e)}
+                            title="Effacer" />
+                    </div>
                 </div>
             );
     }
@@ -175,6 +218,7 @@ class VoiceRecorder extends React.Component {
                 sentence: '',
                 id: -1,
             },
+            recording_status: STATUS.STOPPED,
         };
         for (let emotion of this.props.emotions) {
             state[emotion] = {
@@ -186,7 +230,7 @@ class VoiceRecorder extends React.Component {
                     m: 0,
                     s: 0
                 },
-                iiud: null,
+                uuid: null,
             };
         }
         this.state = state;
@@ -205,7 +249,6 @@ class VoiceRecorder extends React.Component {
                         m: 0,
                         s: 0
                     },
-                    iiud: null,
                 }
             });
         }
@@ -217,7 +260,9 @@ class VoiceRecorder extends React.Component {
         this.resetRecords();
     }
     handleAudioStop(emotion) {
-        return data => this.setState({ ...this.state, [emotion]: data });
+        return data => {
+            this.setState({ ...this.state, [emotion]: data, recording_status: STATUS.STOPPED });
+        }
     }
     updateUuid(emotion, uuid) {
         const newData = {
@@ -255,6 +300,26 @@ class VoiceRecorder extends React.Component {
             this.setState({ ...this.state, [emotion]: reset });
         };
     }
+    handleAudioPause() {
+        this.setState({...this.state, recording_status: STATUS.PAUSED});
+    }
+    handleAudioStart(emotion) {
+        return () => {
+            if (this.state.recording_status == STATUS.STOPPED) {
+                this.setState({
+                    ...this.state,
+                    recording_status: STATUS.PLAYING,
+                    [emotion]: {
+                        ...this.state[emotion],
+                        //uuid: null,
+                        //audioUrl: null,
+                    }
+                });
+            }
+            else
+                this.setState({...this.state, recording_status: STATUS.PLAYING});
+        };
+    }
     render() {
         const browser = Bowser.getParser(window.navigator.userAgent);
         const BrowserName = browser.getBrowserName();
@@ -285,9 +350,12 @@ class VoiceRecorder extends React.Component {
                     audioURL={this.state[emotion].url}
                     showUIAudio
                     handleAudioStop={data => this.handleAudioStop(emotion)(data)}
+                  handleAudioPause={() => this.handleAudioPause()}
+                  handleAudioStart={() => this.handleAudioStart(emotion)()}
                     handleAudioUpload={data => this.handleAudioUpload(emotion)(data)}
                     handleRest={() => this.handleRest(emotion)()}
-                    uuid={this.state[emotion].uuid}
+                  uuid={this.state[emotion].uuid}
+                  recording_status={this.state.recording_status}
                 />
             </TabPanel>
         );
@@ -309,7 +377,11 @@ class VoiceRecorder extends React.Component {
                         {this.state.sentence_info.sentence}
                     </span>
                     </h3>
-                    <Button onClick={() => this.updateSentence()} title='Autre phrase' extraClass="w-3/12 mb-8" />
+                  <Button
+                    onClick={() => this.updateSentence()}
+                    isHidden={this.state.recording_status != STATUS.STOPPED}
+                    title='Autre phrase'
+                    extraClass="w-3/12 mb-8" />
                 </div>
                 <Tabs>
                     <div className="tab-wrapper">
