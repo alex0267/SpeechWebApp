@@ -38,7 +38,7 @@ variable "sql_replica_zone_prod" {
   description = "Zone of the Cloud SQL replica (a, b, ...)"
 }
 variable "sql_user_prod" {
-  default     = "admin"
+  default     = "postgres"
   description = "Username of the host to access the database"
 }
 variable "sql_pass_prod" {
@@ -74,7 +74,7 @@ variable "sql_connect_retry_interval_dev" {
   description = "The number of seconds between connect retries."
 }
 variable "sql_user_dev" {
-  default     = "admin"
+  default     = "postgres"
   description = "Username of the host to access the database"
 }
 variable "sql_pass_dev" {

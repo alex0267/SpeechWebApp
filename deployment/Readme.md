@@ -82,7 +82,9 @@ kubectl apply -f ./deployment/ingress-ser-webapp-dev.yaml
 kubectl get ingress
 ```
 
-- Report the IP address in [Cloud DNS](https://console.cloud.google.com/net-services/dns/zones/speech-webapp/details?organizationId=96332070682&project=wewyse-centralesupelec-ftv) adding a type A record linking the IP address to the address that you entered for the certificate.
+- Create / request a domain name (e.g. speech-emotion-recognition.app) on [Cloud domains](https://console.cloud.google.com/net-services/domains/registrations/list?authuser=0&project=wewyse-centralesupelec-ftv). Once it is activated, you can continue.
+
+- Report the previous IP address in [Cloud DNS](https://console.cloud.google.com/net-services/dns/zones/speech-webapp/details?organizationId=96332070682&project=wewyse-centralesupelec-ftv) adding a type A record linking the IP address to the address that you entered for the certificate. You also have to activate the IP / domain name on [Google Domains](https://domains.google.com/).
 
 - Verify that the certificate is activated (15min):
 
